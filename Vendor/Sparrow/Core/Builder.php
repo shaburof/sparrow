@@ -14,12 +14,13 @@ use Vendor\Sparrow\Core\Objects\NullObject;
 
 class Builder
 {
-    protected function checkExistingClass($class)
+    // :TODO добавил тип принимаемой переменной и тип для return
+    protected function checkExistingClass(string $class): bool
     {
         return class_exists($class);
     }
 
-    public function create(string $class, $store = false, $parameters = null): object
+    public function create(string $class, bool $store = false, $parameters = null): object
     {
         if ($this->checkExistingClass($class)) {
             $newClass = new $class($parameters);

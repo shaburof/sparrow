@@ -1,6 +1,6 @@
 <?php
 
-function dd($data)
+function dd($data=null)
 {
     echo '<pre>';
     var_export($data);
