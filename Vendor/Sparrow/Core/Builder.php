@@ -30,5 +30,10 @@ class Builder
         throw new Errors("не могу создат класс $class, класс отсутствует");
     }
 
+    public static function sCreate(string $class, bool $store = false, $parameters = null): object
+    {
+        $builder = new self();
+        return $builder->create($class, $store, $parameters);
+    }
 
 }

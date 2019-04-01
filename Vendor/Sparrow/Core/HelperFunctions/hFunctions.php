@@ -3,7 +3,7 @@
 function dd($data=null)
 {
     echo '<pre>';
-    var_export($data);
+    var_dump($data);
     echo '</pre>';
     die();
 }
