@@ -5,16 +5,26 @@ namespace Vendor\Sparrow\Core\Model;
 
 use Vendor\Sparrow\Core\Builder;
 use Vendor\Sparrow\Core\DB\DB;
+use Vendor\Sparrow\Core\DB\DBMain;
 use Vendor\Sparrow\Core\DB\QueryBuilder;
 
 class Model
 {
+    use actions;
+
 /*
  * example query
         $m = new \App\Model\footable();
         $foo = $m->query(function ($q) {
             $q->select()->where('id','>=',1);
         })->all();
+
+    example delete:
+    $m = new \App\Model\footable();
+    $m->delete()->query(function ($q){
+        $q->where('id','=',9)->or()->where('id','=',11);
+    })
+
  */
     protected $model;
     protected $db;
@@ -49,7 +59,7 @@ class Model
     }
 
 
-    protected function get()
+    protected function get() :DBMain
     {
         return $this->db->raw($this->queryBuilder->build());
     }

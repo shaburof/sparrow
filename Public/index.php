@@ -1,9 +1,8 @@
 <?php
 
-use \Vendor\Sparrow\Core\DB\QueryBuilder;
 use \Vendor\Sparrow\Core\Builder;
 
-//try {
+try {
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -19,13 +18,25 @@ require_once '../Start/Start.php';
 
 //dd(db()->raw(['select * from footable where id >= ?',[1]])->all());
 
-$m = new \App\Model\footable();
-$foo = $m->query(function ($q) {
-    $q->select()->where('id','=',1)->or()->where('id','=',3);
-})->all();
-foreach ($foo as $item){
-    echo "$item->title<br>";
-}
+
+$footable = Builder::sCreate(\App\Model\footable::class);
+//
+//$footable->delete()->query(function($q){
+//    $q->where('id','>','12');
+//});
+$footable->insert([
+    'title' => 'foo',
+    'description' => 'bar',
+    'name' => 'Ola Ivanova'
+]);
+
+//dd($footable->query(function($q){
+//    $q->select();
+//})->first());
+dd($footable->select(null,function($q){
+    $q->where('id','>=','20');
+})->all());
+
 
 //dd($m->query(function($queryBuilder){
 //    $queryBuilder->select('title')->where('id','=',2);
@@ -40,6 +51,6 @@ foreach ($foo as $item){
 //    dd($db);
 
 
-//} catch (Error $e) {
-//    echo errorRender($e);
-//}
+} catch (Error $e) {
+    echo errorRender($e);
+}

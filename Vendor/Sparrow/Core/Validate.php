@@ -9,8 +9,12 @@
 namespace Vendor\Sparrow\Core;
 
 
+use Vendor\Sparrow\Core\Validation\ValidateMethods;
+
 class Validate
 {
+    use ValidateMethods;
+
     protected $data;
 
     public function cleaning($data)

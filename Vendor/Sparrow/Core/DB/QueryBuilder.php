@@ -14,7 +14,7 @@ class QueryBuilder
     protected $query;
     protected $model;
     protected $parameters = [];
-    protected $andOr=false;
+    protected $andOr = false;
 
     public function __construct($model)
     {
@@ -29,25 +29,41 @@ class QueryBuilder
         return $this;
     }
 
+    public function delete()
+    {
+        $this->query = "DELETE FROM {$this->model} ";
+
+        return $this;
+    }
+
+    public function insert($values)
+    {
+        $parsedValues=$this->parsingInsertValues($values);
+        $this->query="INSERT INTO $this->model ({$parsedValues['parameters']}) VALUES ({$parsedValues['questionMarks']})";
+        $this->parameters=$parsedValues['values'];
+    }
+
     public function where($valueOne, $compare, $valueTwo)
     {
-        if(!$this->andOr) $this->query .= " WHERE $valueOne $compare ?";
-        else $this->query.=" $valueOne $compare ?";
+        if (!$this->andOr) $this->query .= " WHERE $valueOne $compare ?";
+        else $this->query .= " $valueOne $compare ?";
 
         array_push($this->parameters, $valueTwo);
         return $this;
     }
 
-    public function and(){
-        $this->andOr=true;
-        $this->query.=' AND ';
+    public function and()
+    {
+        $this->andOr = true;
+        $this->query .= ' AND ';
 
         return $this;
     }
 
-    public function or(){
-        $this->andOr=true;
-        $this->query.=' OR ';
+    public function or()
+    {
+        $this->andOr = true;
+        $this->query .= ' OR ';
 
         return $this;
     }
@@ -72,6 +88,24 @@ class QueryBuilder
         }
 
         return htmlspecialchars($parseParameters);
+    }
+
+    protected function parsingInsertValues(array $values): array
+    {
+        $tempParametersString = '';
+        $tempValuesString = [];
+        $tempQuestionMarks='';
+
+        foreach (array_keys($values) as $value) {
+            $tempParametersString .= $value . ',';
+            array_push($tempValuesString, $values[$value]);
+            $tempQuestionMarks.='?,';
+        }
+        return [
+            'parameters' => rtrim($tempParametersString, ','),
+            'values' => $tempValuesString,
+            'questionMarks' => rtrim($tempQuestionMarks, ',')
+        ];
     }
 
 }

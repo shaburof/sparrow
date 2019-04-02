@@ -14,7 +14,6 @@ use Vendor\Sparrow\Core\Objects\NullObject;
 
 class Builder
 {
-    // :TODO добавил тип принимаемой переменной и тип для return
     protected function checkExistingClass(string $class): bool
     {
         return class_exists($class);

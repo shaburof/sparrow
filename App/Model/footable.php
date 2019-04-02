@@ -14,8 +14,6 @@ use Vendor\Sparrow\Core\Model\Model;
 class footable extends Model
 {
 
-    public function dummy(){
-        echo "<h1>dummy function</h1>";
-}
+
 
 }
