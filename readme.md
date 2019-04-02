@@ -51,3 +51,8 @@ getClass(\App\Model\footable::class)
 
 получаем данные от request
 request()->option
+
+
+render view file:
+ render('welcome', ['title' => '<b>wel</b>come'],true);
+ true - sanitize output to render
