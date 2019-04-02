@@ -13,7 +13,7 @@ use Vendor\Sparrow\Core\DB\DBMain;
 
 trait actions
 {
-    public function select($whatToSelect = null,$query): DBMain
+    public function select($whatToSelect = null, $query): DBMain
     {
         if (!empty($query) && is_object($query)) {
             $this->queryBuilder->select($whatToSelect);
@@ -35,5 +35,11 @@ trait actions
     {
         $this->queryBuilder->insert($values);
         $this->get();
+    }
+
+    public function update(array $values): Model
+    {
+        $this->queryBuilder->update($values);
+        return $this;
     }
 }

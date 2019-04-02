@@ -6,6 +6,15 @@ $footable->insert([
     'name' => 'Ola Ivanova'
 ]);
 
+updated
+$footable = Builder::sCreate(\App\Model\footable::class);
+
+$footable->update([
+    'title'=>'edited'
+])->query(function($q){
+    $q->where('id','=','23')->or()->where('name','like','kola');
+});
+
 delete
 $footable->delete()->query(function($q){
     $q->where('id','=','12');

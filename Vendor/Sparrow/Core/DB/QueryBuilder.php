@@ -36,11 +36,21 @@ class QueryBuilder
         return $this;
     }
 
-    public function insert($values)
+    public function insert(array $values): void
     {
-        $parsedValues=$this->parsingInsertValues($values);
-        $this->query="INSERT INTO $this->model ({$parsedValues['parameters']}) VALUES ({$parsedValues['questionMarks']})";
-        $this->parameters=$parsedValues['values'];
+        $parsedValues = $this->parsingInsertValues($values);
+        $this->query = "INSERT INTO $this->model ({$parsedValues['parameters']}) VALUES ({$parsedValues['questionMarks']})";
+        $this->parameters = $parsedValues['values'];
+    }
+
+    public function update(array $values): void
+    {
+        $parsedValues = $this->parsingValues($values,'update');
+        $this->query = "UPDATE {$this->model} SET {$parsedValues['parameters']}";
+        $this->parameters = $parsedValues['values'];
+
+//        dump($this->query);
+//        dd($this->parameters);
     }
 
     public function where($valueOne, $compare, $valueTwo)
@@ -94,12 +104,37 @@ class QueryBuilder
     {
         $tempParametersString = '';
         $tempValuesString = [];
-        $tempQuestionMarks='';
+        $tempQuestionMarks = '';
 
         foreach (array_keys($values) as $value) {
             $tempParametersString .= $value . ',';
             array_push($tempValuesString, $values[$value]);
-            $tempQuestionMarks.='?,';
+            $tempQuestionMarks .= '?,';
+        }
+        return [
+            'parameters' => rtrim($tempParametersString, ','),
+            'values' => $tempValuesString,
+            'questionMarks' => rtrim($tempQuestionMarks, ',')
+        ];
+    }
+
+    protected function parsingValues(array $values, $action): array
+    {
+        $tempParametersString = '';
+        $tempValuesString = [];
+        $tempQuestionMarks = '';
+
+        if ($action === 'insert') {
+            foreach (array_keys($values) as $value) {
+                $tempParametersString .= $value . ',';
+                array_push($tempValuesString, $values[$value]);
+                $tempQuestionMarks .= '?,';
+            }
+        } elseif ($action === 'update') {
+            foreach (array_keys($values) as $value) {
+                $tempParametersString .= "{$value} = ?,";
+                array_push($tempValuesString, $values[$value]);
+            }
         }
         return [
             'parameters' => rtrim($tempParametersString, ','),
