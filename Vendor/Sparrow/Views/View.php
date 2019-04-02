@@ -8,35 +8,34 @@
 
 namespace Vendor\Sparrow\Views;
 
-
+Use Vendor\blade\BladeOne;
 use Vendor\Sparrow\Core\Errors\Errors;
-use Vendor\Sparrow\Core\Validate;
+//use Vendor\Sparrow\Core\Validate;
 
 class View
 {
-    protected $view;
-    protected $validate;
+//    protected $view;
+//    protected $validate;
+protected $blade;
 
     public function __construct()
     {
-        $this->validate = getClass(Validate::class);
+//        $this->validate = getClass(Validate::class);
+        $this->blade=getClass(BladeOne::class);
     }
 
-    public function qwe()
+
+    public function render(string $view, array $variables = []): void
     {
-        echo __METHOD__;
-    }
+        echo $this->blade->run($view,$variables);
+//        foreach ($variables as $k => $v) {
+//            $$k = $sanitize ? $this->validate->sanitizeString($v) : $v;
+//        }
 
-    public function render(string $view, array $variables = [], $sanitize = false): void
-    {
-        foreach ($variables as $k => $v) {
-            $$k = $sanitize ? $this->validate->sanitizeString($v) : $v;
+//        $this->view = $view;
+//        require $this->getCorrectPath();
+//        die();
 
-        }
-
-        $this->view = $view;
-        require $this->getCorrectPath();
-        die();
     }
 
     protected function getCorrectPath(): string

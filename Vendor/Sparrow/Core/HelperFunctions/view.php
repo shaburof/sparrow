@@ -1,10 +1,10 @@
 <?php
 
 // [render('test.bar.foo')] get view file from Resource/Views/test/bar/foo.php
-function render($view, $variables = [], $sanitize = false)
+function render($view, $variables = [])
 {
     $viewClass = getClass(\Vendor\Sparrow\Views\View::class);
-    $viewClass->render($view, $variables,$sanitize);
+    $viewClass->render($view, $variables);
 }
 
 function sanitize($data)
