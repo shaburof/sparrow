@@ -1,0 +1,34 @@
+<?php
+
+namespace Vendor\Sparrow\Router;
+
+class Route
+{
+    protected function __construct($uri, $secondParameter)
+    {
+    }
+
+    public static function get(string $uri, $action, array $parameters = []):void
+    {
+        static::Store([$uri, 'get', $action, $parameters]);
+    }
+
+    public static function post(string $uri, $action, array $parameters = []) :void
+    {
+        static::Store([$uri, 'post', $action, $parameters]);
+    }
+
+    private static function Store(array $params) :void
+    {
+        [$uri, $type, $action, $parameters] = $params;
+        $path = (object)[
+            'uri' => trim($uri,'/'),
+            'action' => $action,
+            'type' => $type,
+            'parameters' => (object)$parameters
+        ];
+
+        getClass(RouteStore::class)->add($path);
+    }
+
+}

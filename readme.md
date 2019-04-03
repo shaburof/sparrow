@@ -56,3 +56,14 @@ request()->option
 render view file:
  render('welcome', ['title' => '<b>wel</b>come']);
  for render use blade engine
+
+
+Routing
+
+Route::get('/','UserController@main',['name'=>'main']);
+
+Route::get('/user/?/?',function($a,$b){
+    var_dump("$a and $b");
+},['name'=>'closure']);
+
+Route::get('/user/?','UserController@user',['name'=>'user']);

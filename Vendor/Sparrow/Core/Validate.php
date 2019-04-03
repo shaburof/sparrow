@@ -40,4 +40,12 @@ class Validate
     {
         return htmlentities($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
+
+    public function cleanUriParameters(array $parameters): array
+    {
+        return array_map(function ($value) {
+            return protectionFromTags(protectedFromQuotes($value));
+        }, $parameters);
+
+    }
 }
