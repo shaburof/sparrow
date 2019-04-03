@@ -1,15 +1,27 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-<h1>Welcome</h1>
-@yield('content')
+@extends('app.master')
 
-</body>
-</html>
+@section('content')
+    <v-container grid-list-md text-xs-center>
+        <v-layout row wrap>
+            <v-flex xs12 class="text-xs-center">
+                @{{ title }}
+            </v-flex>
+            <v-flex xs12>
+                <h1 class="red--text">@{{ name }}</h1>
+            </v-flex>
+        </v-layout>
+    </v-container>
+@endsection
+
+@section('script')
+    <script>
+        new Vue({
+            name: 'hello',
+            el: '#app',
+            data: {
+                title: 'new framework',
+                name: 'Sparrow'
+            }
+        });
+    </script>
+@endsection

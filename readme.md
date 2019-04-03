@@ -23,9 +23,9 @@ $footable->delete()->query(function($q){
 
 select
 $footable = Builder::sCreate(\App\Model\footable::class);
-$footable->select(null,function($q){    // вместо null можно указать нужное поле, типа 'title', или оставить 'null' для получения всех полей таблицы
-    $q->where('id','>=','20');
-})->all();
+    $footable->select()->query(function($q){    // or select('id'), select(['id','name'])
+        $q->where('name','=','nata');
+    })->all();
 
 или 
 

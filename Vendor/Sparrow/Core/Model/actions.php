@@ -13,16 +13,20 @@ use Vendor\Sparrow\Core\DB\DBMain;
 
 trait actions
 {
-    public function select($whatToSelect = null, $query): DBMain
+//    public function select($whatToSelect = null, $query): DBMain
+//    {
+//        if (!empty($query) && is_object($query)) {
+//            $this->queryBuilder->select($whatToSelect);
+//            $query($this->queryBuilder);
+//        } else {
+//            $this->queryBuilder->select($whatToSelect);
+//        }
+//        return $this->get();
+//    }
+    public function select($whatToSelect = null): Model
     {
-        if (!empty($query) && is_object($query)) {
-            $this->queryBuilder->select($whatToSelect);
-            $query($this->queryBuilder);
-        } else {
-            $this->queryBuilder->select($whatToSelect);
-        }
-        return $this->get();
-//        return $this;
+        $this->queryBuilder->select($whatToSelect);
+        return $this;
     }
 
     public function delete(): Model
