@@ -66,4 +66,5 @@ Route::get('/user/?/?',function($a,$b){
     var_dump("$a and $b");
 },['name'=>'closure']);
 
-Route::get('/user/?','UserController@user',['name'=>'user']);
+Route::get('/user/?','UserController@user',['name'=>'user']);   // for get request
+Route::post('/user/?','UserController@user',['name'=>'user']);  //for post request

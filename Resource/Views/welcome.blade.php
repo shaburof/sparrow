@@ -20,7 +20,7 @@
             el: '#app',
             data: {
                 title: 'new framework',
-                name: 'Sparrow'
+                name: 'Sparrow',
             }
         });
     </script>

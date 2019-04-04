@@ -10,6 +10,7 @@ class Router
     protected $routePaths;
     protected $uri;
     protected $validate;
+    private $routerPattern = '/([0-9a-zA-Z-%]*)';
 
     public function __construct()
     {
@@ -53,7 +54,7 @@ class Router
 
     protected function compareUriWithStoredRoutes($uri, $route)
     {
-        $pattern = preg_replace('~(/\?)~', '/([0-9a-zA-Z]*)', $route);
+        $pattern = preg_replace('~(/\?)~', $this->routerPattern, $route);
         $pattern = "^$pattern$";
         if (preg_match("~$pattern~", $uri, $matchParameters) === 1) {
             return ['parameters' => array_splice($matchParameters, 1, count($matchParameters) - 1)];

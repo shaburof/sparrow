@@ -1,12 +1,19 @@
 <?php
+
 use Vendor\Sparrow\Router\Route;
 
 
+Route::get('/', function () {
+    render('welcome');
+}, ['name' => 'welcome']);
 
-Route::get('/','UserController@main',['name'=>'main']);
-Route::get('/user/?','UserController@user',['name'=>'user']);
-Route::get('/user/?/?',function($a,$b){
-    var_dump("$a and $b");
-},['name'=>'closure']);
+Route::post('/post/test','UserController@user');
+
+Route::get('/test', function () {
+
+    $routerStore = getClass(\Vendor\Sparrow\Router\RouteStore::class);
+    dd($routerStore);
+
+}, ['name' => 'test']);
 
 
