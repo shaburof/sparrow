@@ -12,6 +12,7 @@ $cache = ROOT . 'Store/Cache'; // it uses the folder /cache to compile the resul
 setClass(new \Vendor\blade\BladeOne($views, $cache, \Vendor\blade\BladeOne::MODE_AUTO));
 
 
+setClass(new \Vendor\Sparrow\Core\Csrf\Csrf());
 
 setClass(new \Vendor\Sparrow\Core\Builder());
 setClass(new \Vendor\Sparrow\Core\Validate());

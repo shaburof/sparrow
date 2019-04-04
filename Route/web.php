@@ -11,7 +11,8 @@ Route::post('/post/test', 'UserController@user', ['name' => 'postTest']);
 
 Route::get('/test', function () {
 
-    dump(action('UserController@user',['foo'=>'bar']));
+
+    dump(csrf());
 
 }, ['name' => 'test']);
 
