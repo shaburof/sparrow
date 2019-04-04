@@ -24,8 +24,7 @@ class Router
     {
         $storedRouters = $this->filterBy('type', requestMethod());
         foreach ($storedRouters as $path) {
-            $match = $this->compareUriWithStoredRoutes($this->uri, $path->uri);
-
+            $match = $this->compareUriWithStoredRoutes($this->removeGetParametersFromUri($this->uri), $path->uri);
             if ($match !== false) {
                 ['parameters' => $parameters] = $match;
                 $this->launchAction($path->action, $this->sanitizeParameters($parameters));
@@ -62,6 +61,10 @@ class Router
         return false;
     }
 
+    protected function removeGetParametersFromUri(string $uri): string
+    {
+        return explode('?', $uri)[0];
+    }
 
     protected function filterBy(string $type, string $value): ?array
     {
@@ -72,10 +75,20 @@ class Router
         return count($array) > 0 ? $array : null;
     }
 
-    protected function getNamedRouterPath(string $name): ?object
+    public function getNamedRouterPath(string $name): ?object
     {
         foreach ($this->routePaths as $item) {
             if ($item->parameters->name === $name) {
+                return $item;
+            }
+        }
+        return null;
+    }
+
+    public function getRouterPathByAction(string $action): ?object
+    {
+        foreach ($this->routePaths as $item) {
+            if ($item->action === $action) {
                 return $item;
             }
         }

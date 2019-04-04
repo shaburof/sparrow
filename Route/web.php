@@ -7,12 +7,11 @@ Route::get('/', function () {
     render('welcome');
 }, ['name' => 'welcome']);
 
-Route::post('/post/test','UserController@user');
+Route::post('/post/test', 'UserController@user', ['name' => 'postTest']);
 
 Route::get('/test', function () {
 
-    $routerStore = getClass(\Vendor\Sparrow\Router\RouteStore::class);
-    dd($routerStore);
+    dump(action('UserController@user',['foo'=>'bar']));
 
 }, ['name' => 'test']);
 

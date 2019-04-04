@@ -68,3 +68,13 @@ Route::get('/user/?/?',function($a,$b){
 
 Route::get('/user/?','UserController@user',['name'=>'user']);   // for get request
 Route::post('/user/?','UserController@user',['name'=>'user']);  //for post request
+
+get full url woth parameters
+url('foo',['id'=>123]) // return http[s]://domain.name/foo&id=15
+
+get route full path by name with parameters
+router('index',['foo'=>'bar'])
+
+get full path by action with parameters
+action('UserController@user',['foo'=>'bar'])
+

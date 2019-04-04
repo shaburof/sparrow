@@ -10,19 +10,6 @@ getClass(\Vendor\Sparrow\Router\Router::class)->Start();
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 //} catch (Error $e) {
 //    echo errorRender($e);
 //    echo 'some error here';

@@ -24,7 +24,29 @@ function secure(): bool
 {
     return getClass(\Vendor\Sparrow\Core\Url::class)->secure();
 }
+
 function requestMethod(): string
 {
     return getClass(\Vendor\Sparrow\Core\Url::class)->requestMethod();
+}
+
+function url($url, $parameters = null): string
+{
+    return getClass(\Vendor\Sparrow\Core\Url::class)->url($url, $parameters);
+}
+
+function router(string $name, array $parameters = null)
+{
+    $Router = getClass(\Vendor\Sparrow\Router\Router::class);
+    $uri = $Router->getNamedRouterPath($name)->uri;
+    if(empty($uri)) throw new Exception('указанное имя в маршрутах не найдено');
+    return url($uri, $parameters);
+}
+
+function action(string $action, array $parameters = null)
+{
+    $Router = getClass(\Vendor\Sparrow\Router\Router::class);
+    $uri = $Router->getRouterPathByAction($action)->uri;
+    if(empty($uri)) throw new Exception('указанное действие в маршрутах не найдено');
+    return url($uri, $parameters);
 }

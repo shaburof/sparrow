@@ -9,13 +9,18 @@
 namespace Vendor\Sparrow\Core;
 
 
+use Vendor\Sparrow\Router\Router;
+
 class Url
 {
     protected $global;
+    protected $router;
 
     public function __construct()
     {
         $this->global = $_SERVER;
+
+//        $this->router=Builder::sCreate(Router::class);
     }
 
     protected function get(string $item)
@@ -51,5 +56,28 @@ class Url
     public function requestMethod(): string
     {
         return $this->get('REQUEST_METHOD');
+    }
+
+    public function url(string $url, array $parameters = null): string
+    {
+        $addToUrl = sanitizeUrl(trim($url, '/'));
+        $params = null;
+        if ($parameters) {
+            $params = '?';
+            foreach ($parameters as $k => $v) {
+                $params .= "$k=$v&";
+            }
+            $params = rtrim($params, '&');
+        }
+        $scheme = secure() ? 'https' : 'http';
+        $domainWithPort = domainWithPort();
+        $url = "{$scheme}://{$domainWithPort}/$addToUrl$params";
+
+        return $url;
+    }
+
+    public function Route(string $route): string
+    {
+
     }
 }
