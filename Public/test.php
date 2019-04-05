@@ -1,30 +1,54 @@
 <?php
-echo '<pre>';
-$arr=['123','567'];
-
-
-//[$a1,$a2]=$arr;
-//var_dump([$arr]);
-//var_dump($a1);
-//var_dump($a2);
-
-$f = function ($a,$b){
-    echo "$a , $b";
-};
-
-call_user_func_array($f,$arr);
-
-//
-//$arrayCount=count($arr);
-//for($i=0;$i<$arrayCount;$i++){
-//   $arrayOfVariables+=["v$i"=>$arr[$i]];
-//}
-//
-//extract($arrayOfVariables);
-//$keys = array_keys($arrayOfVariables);
+//session_start();
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
+////session_unset();
+//echo '<pre>';
 //
 //
+//var_dump($_SESSION);
 //
-//var_dump($v0);
-//var_dump($v1);
-//var_dump($v2);
+//?>
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<form action="/test" method="post">
+    <input type="hidden" name="csrf" value="">
+    <button type="submit">Click</button>
+</form>
+
+
+<script>
+
+    checkAjax();
+
+    function checkAjax() {
+        fetch("/test",
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify({foo: 'some foo value'})
+            })
+            .then(function (res) {
+                console.log(res)
+            })
+            .catch(function (res) {
+                console.log(res)
+            })
+    }
+</script>
+</body>
+</html>

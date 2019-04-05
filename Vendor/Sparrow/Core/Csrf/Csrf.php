@@ -8,23 +8,30 @@
 
 namespace Vendor\Sparrow\Core\Csrf;
 
-
-class Csrf
+class Csrf extends CsrfMain
 {
-    public $csrf;
 
-    public function __construct()
+
+    public function compare(string $userToken): bool
     {
-        $this->csrf = $this->createCsrf();
+        foreach ($this->tokens as $token) {
+            if ($token->compare($userToken)) return true;
+        }
+        return false;
     }
 
-    protected function createCsrf(): string
+    public function getToken(): string
     {
-        return substr(base64_encode(bin2hex(random_bytes(35))), 0, 93);
+        if ($this->removeExpiredTokens()) {
+            $token = $this->createCsrfToken();
+            array_push($this->tokens, $token);
+            $this->session->frameworkSession()->tokens = $this->serializeToken($this->tokens);
+
+            return $token->getToken();
+        }
+
+        return $this->tokens[$this->count - 1]->getToken();
     }
 
-    public function getCsrf(): string
-    {
-        return $this->csrf;
-    }
+
 }

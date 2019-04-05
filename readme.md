@@ -78,3 +78,20 @@ router('index',['foo'=>'bar'])
 get full path by action with parameters
 action('UserController@user',['foo'=>'bar'])
 
+csrf
+csrf()  // get csrf token
+{!! csrf_field() !!}    // get csrf field in HTML form
+
+session
+
+session()->foo='bar'    //store in session
+echo session()->foo     // get value from session
+
+session()->remove('foo')    //unset from session
+
+session()->frameworkSession()->someVariable = 'value';  // добавить в массив сессий 'sparrow'.env('key')
+echo session()->frameworkSession()->someVariable;
+
+
+env
+env('foo')  // get from .env file foo parameter

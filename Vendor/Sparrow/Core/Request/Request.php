@@ -8,38 +8,42 @@
 
 namespace Vendor\Sparrow\Core\Request;
 
+use Vendor\Sparrow\Core\Csrf\Csrf;
 use Vendor\Sparrow\Core\Validate;
 
 class Request
 {
     protected $validate;
+    protected $_csrf;
 
     public function __construct()
     {
+        $this->_csrf = getClass(Csrf::class);
+
         $this->validate = getClass(Validate::class);
         $this->getDataFromRequest();
-        $this->getDataFromJsonRequest();
+
+        if (requestMethod() === 'POST') $this->checkCsrfToken();
     }
 
-    protected function getDataFromRequest():void
+    protected function getDataFromRequest(): void
     {
         if ($_GET) {
             $this->createProperty($_GET);
-
         } elseif ($_POST) {
             $this->createProperty($_POST);
-        }
-    }
-
-    protected function getDataFromJsonRequest():void
-    {
-        if (file_get_contents('php://input')) {
+        } elseif (file_get_contents('php://input')) {
             $data = json_decode(file_get_contents('php://input'));
-            $this->createProperty($data);
+            if (!empty($data)) $this->createProperty($data);
         }
     }
 
-    protected function createProperty($params):void
+    protected function checkCsrfToken(): void
+    {
+        if (empty($this->csrf) || !$this->_csrf->compare($this->csrf)) throw new \Exception('csrf токен указан неверно');
+    }
+
+    protected function createProperty($params): void
     {
         foreach ($params as $k => $v) {
             $this->{$k} = $this->validate->cleaning($v);
