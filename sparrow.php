@@ -1,5 +1,5 @@
 <?php
-require 'Vendor/Sparrow/Console/Console.php';
+require 'Start/Start.php';
 use \Vendor\Sparrow\Console\Console;
 
 new Console(array_splice($argv, 1));

@@ -21,9 +21,9 @@ Route::post('/test', function () {
 }, ['name' => 'postTest']);
 
 Route::get('/test', function () {
-    echo '<h1>get route</h1>';
 
-    echo csrf();
+    $c = \Vendor\Sparrow\Core\Builder::sCreate(\Vendor\Sparrow\Console\Console::class);
+    dd($c);
 
 }, ['name' => 'test']);
 
