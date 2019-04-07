@@ -10,7 +10,7 @@
 <body>
 
 <form action="/test" method="post">
-    <input type="hidden" name="foo" value="test">
+    <input type="hidden" name="foo" value="foo value from form, with post method">
     {!! csrf_field() !!}
     <button type="submit">Click</button>
 </form>
@@ -18,7 +18,7 @@
 
 <script>
 
-    // checkAjax();
+    checkAjax();
 
     function checkAjax() {
         fetch("/test",

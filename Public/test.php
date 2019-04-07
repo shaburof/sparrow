@@ -1,15 +1,30 @@
 <?php
-//session_start();
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
-////session_unset();
-//echo '<pre>';
-//
-//
-//var_dump($_SESSION);
-//
-//?>
+//$string = shell_exec('php ../sparrow.php create:controller abc.newController');
+//var_dump($string);
+
+
+$controllersRootPath = '/var/www/sparrow/Start/../App/Controllers/';
+$path = 'abc/def/newController';
+
+$fullControllerPath="$controllersRootPath$path.php";
+if (file_exists($fullControllerPath)) {
+    echo 'controller exists';
+    die();
+}
+
+$explodePath = explode('/', $path);
+$controllerName = array_pop($explodePath) . '.php';
+$path = implode($explodePath, '/') . '/';
+
+@mkdir($controllersRootPath . $path, 0777, true);
+
+$myfile = fopen($controllersRootPath . $path . $controllerName, "w") or die("Unable to open file!");
+$txt = "Mickey Mouse\n";
+$txt = "Minnie Mouse\n";
+fwrite($myfile, $txt);
+fclose($myfile);
+die();
+?>
 
 <!doctype html>
 <html lang="en">

@@ -9,11 +9,10 @@
 namespace Vendor\Sparrow\Console;
 
 
-class ConsoleMain
+class ConsoleMain extends ConsoleCommandActions
 {
-    protected $br = PHP_EOL;
     protected $argv;
-    protected $html;
+    protected $additionalParameters;    // like -p
     protected $actions;
 
     protected $command;
@@ -27,9 +26,11 @@ class ConsoleMain
         $message = null;
         if (empty($this->argv)) {
             $this->showError('empty arguments');
-        } elseif (count($this->argv) > 1) {
-            $message = 'wrong arguments';
-        } elseif (empty($this->actions[$this->command])) {
+        }
+//        elseif (count($this->argv) > 1) {
+//            $message = 'wrong arguments';
+//        }
+        elseif (empty($this->actions[$this->command])) {
             $message = 'action exists';
         } elseif (!$this->checkActionsExists()) {
             $message = 'action exists.';
@@ -43,7 +44,7 @@ class ConsoleMain
         if (isset($this->actions[$this->command])
         && is_array($this->actions[$this->command])
             ? isset($this->actions[$this->command][$this->parameter])
-            : '')
+            : true)
             return true;
 
         return false;
@@ -55,7 +56,9 @@ class ConsoleMain
             $splitArguments = explode(':', $this->argv[0]);
             $this->command = array_shift($splitArguments);
             $this->parameter = array_shift($splitArguments);
+//            $this->parameter = explode(' ',array_shift($splitArguments))[0];
         }
+        $this->additionalParameters = array_slice($this->argv, 1);
     }
 
     protected function getActions(): void

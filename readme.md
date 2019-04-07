@@ -67,6 +67,7 @@ Route::get('/user/?/?',function($a,$b){
 },['name'=>'closure']);
 
 Route::get('/user/?','UserController@user',['name'=>'user']);   // for get request
+Route::get('/user/?','Abc.UserController@user',['name'=>'user']);   // for get request for /App/Controllers/Abc/UserController.php controller path
 Route::post('/user/?','UserController@user',['name'=>'user']);  //for post request
 
 get full url woth parameters
@@ -95,3 +96,9 @@ echo session()->frameworkSession()->someVariable;
 
 env
 env('foo')  // get from .env file foo parameter
+
+
+console commands:
+php sparrow.php help
+php sparrow.php come:command -p -d
+

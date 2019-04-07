@@ -2,7 +2,8 @@
 
 return [
     'create' => [
-        'auth' => 'auth'
+        'auth' => 'auth',
+        'controller' => 'controller'
     ],
     'help' => 'help'
 ];

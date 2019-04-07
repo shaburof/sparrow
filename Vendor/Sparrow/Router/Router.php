@@ -46,7 +46,7 @@ class Router
         } elseif (is_string($action)) {
             [$controller, $method] = explode('@', $action);
             $controllerFullName = "\App\Controllers\\$controller";
-            call_user_func_array([\Vendor\Sparrow\Core\Builder::sCreate($controllerFullName), 'user'], $parameters);
+            call_user_func_array([\Vendor\Sparrow\Core\Builder::sCreate($controllerFullName), $method], $parameters);
         }
     }
 

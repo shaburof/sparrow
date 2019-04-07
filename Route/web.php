@@ -7,23 +7,22 @@ Route::get('/', function () {
     render('welcome');
 }, ['name' => 'welcome']);
 
+
 Route::get('/csrf', function () {
-render('test');
+    render('test');
 });
 
 Route::post('/test', function () {
     echo '<h1>post route</h1>';
-
     dump(request()->foo);
-
-    dump($_REQUEST);
 
 }, ['name' => 'postTest']);
 
 Route::get('/test', function () {
 
-    $c = \Vendor\Sparrow\Core\Builder::sCreate(\Vendor\Sparrow\Console\Console::class);
-    dd($c);
+    echo '<h1>get route</h1>';
+    dump(csrf());
+    dump(request()->foo);
 
 }, ['name' => 'test']);
 
