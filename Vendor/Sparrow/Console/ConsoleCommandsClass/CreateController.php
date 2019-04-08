@@ -53,8 +53,9 @@ HTML;
             $this->returnString="controller \"$this->controllerName\" already exist";
         } else {
             $this->createFolder();
-            $this->createControllerFile();
-            $this->returnString = 'controller successfully created' . PHP_EOL;
+            $this->createControllerFile($this->controllerString)
+                ?$this->returnString = 'controller successfully created' . PHP_EOL
+                :$this->returnString = 'Error creating controller' . PHP_EOL;
         }
 
         return $this->returnString . PHP_EOL;
@@ -65,9 +66,9 @@ HTML;
         @mkdir($this->controllerDirectoryPath, 0777, true);
     }
 
-    protected function createControllerFile(): void
+    protected function createControllerFile($controllerString): bool
     {
-        file_put_contents("$this->controllerDirectoryPath$this->controllerName.php", $this->controllerString);
+        return (bool)file_put_contents("$this->controllerDirectoryPath$this->controllerName.php", $controllerString);
     }
 
 
