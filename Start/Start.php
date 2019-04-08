@@ -1,8 +1,8 @@
 <?php
 const ROOT = __DIR__ . '/../';
 
-require_once '../Vendor/Sparrow/Autoload/autoload.php';
-require_once '../Vendor/Sparrow/Autoload/autoloadFunctions.php';
+require_once ROOT.'Vendor/Sparrow/Autoload/autoload.php';
+require_once ROOT.'Vendor/Sparrow/Autoload/autoloadFunctions.php';
 
 spl_autoload_register('\Vendor\Sparrow\Autoload\load');
 

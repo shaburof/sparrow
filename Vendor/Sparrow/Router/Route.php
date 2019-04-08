@@ -8,22 +8,22 @@ class Route
     {
     }
 
-    public static function get(string $uri, $action, array $parameters = []):void
+    public static function get(string $uri, $action, array $parameters = []): void
     {
         static::Store([$uri, 'get', $action, $parameters]);
     }
 
-    public static function post(string $uri, $action, array $parameters = []) :void
+    public static function post(string $uri, $action, array $parameters = []): void
     {
         static::Store([$uri, 'post', $action, $parameters]);
     }
 
-    private static function Store(array $params) :void
+    private static function Store(array $params): void
     {
         [$uri, $type, $action, $parameters] = $params;
         $path = (object)[
-            'uri' => trim($uri,'/'),
-            'action' => $action,
+            'uri' => trim($uri, '/'),
+            'action' => !$action instanceof \Closure ? preg_replace('~\.~', '\\', $action) : $action,
             'type' => $type,
             'parameters' => (object)$parameters
         ];

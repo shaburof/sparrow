@@ -10,7 +10,7 @@
 <body>
 
 <form action="/test" method="post">
- <input type="hidden" name="foo" value="test">
+ <input type="hidden" name="foo" value="foo value from form, with post method">
  <?php echo csrf_field(); ?>
 
  <button type="submit">Click</button>
