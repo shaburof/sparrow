@@ -12,7 +12,7 @@ setClass(new \Vendor\blade\BladeOne($views, $cache, \Vendor\blade\BladeOne::MODE
 
 setClass(new \Vendor\Sparrow\Core\Session\Session());
 
-setClass(new \Vendor\Sparrow\Core\Csrf\Csrf(2,60));
+setClass(new \Vendor\Sparrow\Core\Csrf\Csrf(2,30));
 
 setClass(new \Vendor\Sparrow\Core\Builder());
 setClass(new \Vendor\Sparrow\Core\Validate());

@@ -16,4 +16,6 @@ class UserController
         render('welcome',compact('id'));
         echo "id is: $id, this is user method in UserController class";
     }
+
+
 }

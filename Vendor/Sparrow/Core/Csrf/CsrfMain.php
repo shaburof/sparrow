@@ -52,9 +52,6 @@ class CsrfMain
 
     protected function getTokensFromSession(): void
     {
-//        if (!empty($_SESSION[$this->sessionVariableName])) {
-//            $this->tokens = $this->unserializeTokens($_SESSION['tokens']);
-//        }
         if (!empty($this->session->frameworkSession()->tokens)) {
             $this->tokens = $this->unserializeTokens($this->session->frameworkSession()->tokens);
         }

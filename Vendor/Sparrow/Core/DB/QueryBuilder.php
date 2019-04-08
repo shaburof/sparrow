@@ -15,6 +15,7 @@ class QueryBuilder
     protected $model;
     protected $parameters = [];
     protected $andOr = false;
+    protected $alredySeleted = null;
 
     public function __construct($model)
     {
@@ -31,8 +32,13 @@ class QueryBuilder
 
     public function delete()
     {
-        $this->query = "DELETE FROM {$this->model} ";
+        $query="DELETE FROM {$this->model} ";
+        $parameters=[];
 
+        [$query, $parameters] = $this->changeIfcheckAlredySelected($query, $parameters);
+
+        $this->query = $query;
+        $this->parameters = $parameters;
         return $this;
     }
 
@@ -45,12 +51,26 @@ class QueryBuilder
 
     public function update(array $values): void
     {
-        $parsedValues = $this->parsingValues($values,'update');
-        $this->query = "UPDATE {$this->model} SET {$parsedValues['parameters']}";
-        $this->parameters = $parsedValues['values'];
+        $parsedValues = $this->parsingValues($values, 'update');
+        $query = "UPDATE {$this->model} SET {$parsedValues['parameters']}";
+        $parameters = $parsedValues['values'];
 
-//        dump($this->query);
-//        dd($this->parameters);
+        [$query, $parameters] = $this->changeIfcheckAlredySelected($query, $parameters);
+
+        $this->query = $query;
+        $this->parameters = $parameters;
+
+    }
+
+    protected function changeIfcheckAlredySelected($query, $parsedValues): array
+    {
+
+        if ($this->alredySeleted !== null) {
+            $query .= " WHERE {$this->alredySeleted[0]} {$this->alredySeleted[1]} ?";
+            array_push($parsedValues, $this->alredySeleted[2]);
+        }
+
+        return [$query, $parsedValues];
     }
 
     public function where($valueOne, $compare, $valueTwo)
@@ -59,6 +79,9 @@ class QueryBuilder
         else $this->query .= " $valueOne $compare ?";
 
         array_push($this->parameters, $valueTwo);
+
+        if (!$this->alredySeleted) $this->alredySeleted = [$valueOne, $compare, $valueTwo];
+
         return $this;
     }
 
@@ -81,6 +104,17 @@ class QueryBuilder
     public function build()
     {
         return [$this->query, $this->parameters];
+    }
+
+    public function clearQuery(): void
+    {
+        unset($this->query);
+        $this->parameters = [];
+    }
+
+    public function getAlredySelected(): ?array
+    {
+        return $this->alredySeleted;
     }
 
     protected function parsingParameters($parameters, $default): string

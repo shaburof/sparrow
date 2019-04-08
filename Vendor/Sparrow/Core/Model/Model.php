@@ -12,23 +12,10 @@ class Model
 {
     use actions;
 
-/*
- * example query
-        $m = new \App\Model\footable();
-        $foo = $m->query(function ($q) {
-            $q->select()->where('id','>=',1);
-        })->all();
-
-    example delete:
-    $m = new \App\Model\footable();
-    $m->delete()->query(function ($q){
-        $q->where('id','=',9)->or()->where('id','=',11);
-    })
-
- */
     protected $model;
     protected $db;
-    protected $queryBuilder;
+    public $queryBuilder;   // :TODO сделать свойство protected
+//    public $alredySeleted=false;   // :TODO сделать свойство protected
 
 
     public function __construct()
@@ -52,22 +39,22 @@ class Model
     public function find($id, $typeOfId = 'id')
     {
         $this->queryBuilder->select()->where($typeOfId, '=', $id);
-//        $q=$this->queryBuilder->build();
-        $prepareQuery = $this->db->raw($this->queryBuilder->build());
-
+//        $prepareQuery = $this->db->raw($this->queryBuilder->build());
+        $prepareQuery = $this->get();
         return $prepareQuery->first();
     }
 
 
-    protected function get() :DBMain
+    protected function get(): DBMain
     {
-        return $this->db->raw($this->queryBuilder->build());
+        $query = $this->queryBuilder->build();
+        $this->queryBuilder->clearQuery();
+        return $this->db->raw($query);
     }
 
     public function query($cf)
     {
         $cf($this->queryBuilder);
-
         return $this->get();
     }
 }

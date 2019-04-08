@@ -24,7 +24,8 @@ class DBMain
 
     protected function close(): void
     {
-        unset($this->conn);
+        // :TODO сделать __destruct метод с закрытием соединения, убрать $this->close() из методов all(),first(), last()
+//        unset($this->conn);
     }
 
     protected function getBaseConfiguration(): string

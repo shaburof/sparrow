@@ -13,4 +13,10 @@ class Create
 {
     protected $additionalParameters;
     protected $returnString;
+
+    protected function searchAdditionalParameters(string $addParam): bool
+    {
+        return array_search($addParam, $this->additionalParameters, true)!==false;
+    }
+
 }

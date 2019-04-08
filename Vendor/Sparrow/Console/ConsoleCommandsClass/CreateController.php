@@ -15,6 +15,7 @@ class CreateController extends Create
     protected $controllerName;
     protected $controllerNamespace = 'App\Controllers';
     private $controllerString;
+    protected $controllerStringWithResourceMethods;
 
     public function __construct($additionalParameters)
     {
@@ -27,10 +28,39 @@ namespace $this->controllerNamespace;
 
 class $this->controllerName
 {
-}
+
 HTML;
+        $this->controllerStringWithResourceMethods = <<<HTML
+    public function index(){
 
+    }
+    public function show(\$id){
 
+    }
+    public function create(){
+
+    }
+    public function store(){
+
+    }
+    public function edit(){
+
+    }
+    public function update(\$id){
+
+    }
+    public function destroy(\$id){
+
+    }
+HTML;
+        $this->addExtraParameters();
+    }
+
+    protected function addExtraParameters(): void
+    {
+        if ($this->searchAdditionalParameters('-r')) {
+            $this->controllerString .= $this->controllerStringWithResourceMethods;
+        }
     }
 
     protected function getControllerNameWithSplitByDots()
@@ -39,9 +69,9 @@ HTML;
 
         $explodePath = explode('/', $tempControllerName);
         if (count($explodePath) > 1) {
-            $this->controllerName = array_pop($explodePath) ;
+            $this->controllerName = array_pop($explodePath);
             $this->controllerDirectoryPath .= implode($explodePath, '/') . '/';
-            $this->controllerNamespace .= "\\".implode($explodePath, '\\');
+            $this->controllerNamespace .= "\\" . implode($explodePath, '\\');
         } else {
             $this->controllerName = $tempControllerName;
         }
@@ -49,13 +79,13 @@ HTML;
 
     public function create(): string
     {
-        if($this->checkIsControllerExists()){
-            $this->returnString="controller \"$this->controllerName\" already exist";
+        if ($this->checkIsControllerExists()) {
+            $this->returnString = "controller \"$this->controllerName\" already exist";
         } else {
             $this->createFolder();
-            $this->createControllerFile($this->controllerString)
-                ?$this->returnString = 'controller successfully created' . PHP_EOL
-                :$this->returnString = 'Error creating controller' . PHP_EOL;
+            $this->createControllerFile()
+                ? $this->returnString = 'controller successfully created' . PHP_EOL
+                : $this->returnString = 'Error creating controller' . PHP_EOL;
         }
 
         return $this->returnString . PHP_EOL;
@@ -66,9 +96,10 @@ HTML;
         @mkdir($this->controllerDirectoryPath, 0777, true);
     }
 
-    protected function createControllerFile($controllerString): bool
+    protected function createControllerFile(): bool
     {
-        return (bool)file_put_contents("$this->controllerDirectoryPath$this->controllerName.php", $controllerString);
+        $this->controllerString.='}'; // add the closing curly brace
+        return (bool)file_put_contents("$this->controllerDirectoryPath$this->controllerName.php", $this->controllerString);
     }
 
 

@@ -29,10 +29,12 @@ trait actions
         return $this;
     }
 
-    public function delete(): Model
+    public function delete(): object
     {
         $this->queryBuilder->delete();
-        return $this;
+
+        if ($this->checkAlredySelected()) return $this->get();
+        else return $this;
     }
 
     public function insert(array $values): void
@@ -41,9 +43,17 @@ trait actions
         $this->get();
     }
 
-    public function update(array $values): Model
+    public function update(array $values): object
     {
         $this->queryBuilder->update($values);
+
+        if ($this->checkAlredySelected()) return $this->get();
         return $this;
     }
+
+    protected function checkAlredySelected(): bool
+    {
+        return $this->queryBuilder->getAlredySelected() !== null;
+    }
+
 }

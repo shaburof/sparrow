@@ -15,10 +15,30 @@ $footable->update([
     $q->where('id','=','23')->or()->where('name','like','kola');
 });
 
+$footable->find(1);         //find
+$footable()->update([
+    'title'=>'edited'
+]);                         // update
+
+$footable->select()->query(function ($q) {
+        $q->where('id', '=', 26);
+    })->first();                               // find
+$footable()->update([
+    'title'=>'edited'
+]);                                            // update
+
 delete
 $footable->delete()->query(function($q){
     $q->where('id','=','12');
 });
+
+$footable->find(28);    // find
+$footable->delete();    //delete
+
+$footable->select()->query(function ($q) {
+        $q->where('id', '=', 26);
+    })->first();                             // find
+$footable->delete();                         // delete
 
 
 select
@@ -31,12 +51,19 @@ $footable = Builder::sCreate(\App\Model\footable::class);
 
 $footable->select()->all()  // ->select('title') только поле 'title'
 
+или
+
+find
+$footable = \Vendor\Sparrow\Core\Builder::sCreate(\App\Model\footable::class);
+$data = $footable->find(1);    // select from footable where Id is 1
+
 raw query
 \Vendor\Sparrow\Core\DB\DB::sraw(['select * from footable'])->all();
 
 ->all()     все записи
 ->first()   первая
 ->last()    последняя
+ 
 
 создать класс
 $footable = Builder::sCreate(\App\Model\footable::class);

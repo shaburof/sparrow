@@ -27,9 +27,6 @@ class ConsoleMain extends ConsoleCommandActions
         if (empty($this->argv)) {
             $this->showError('empty arguments');
         }
-//        elseif (count($this->argv) > 1) {
-//            $message = 'wrong arguments';
-//        }
         elseif (empty($this->actions[$this->command])) {
             $message = 'action exists';
         } elseif (!$this->checkActionsExists()) {
@@ -76,13 +73,12 @@ class ConsoleMain extends ConsoleCommandActions
     {
         $message = !empty($message) ? $message . $this->br : '';
 
-        $this->html = <<<HTML
+$this->html = <<<HTML
             some error with parameters$this->br
             $message
-        HTML;
+HTML;
 
         $this->show();
-        echo '123';
         die();
     }
 
