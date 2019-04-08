@@ -25,6 +25,7 @@ class CsrfMain
         $this->expired = (int)$expired * 60;
         $this->count = $count;
         $this->getTokensFromSession();
+        $this->removeExpiredTokens();
     }
 
 

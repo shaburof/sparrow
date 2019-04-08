@@ -14,6 +14,7 @@ class Csrf extends CsrfMain
 
     public function compare(string $userToken): bool
     {
+        // :TODO сделать проверку устаревания токена, т.е. при проверке тоже должен запускаться метод обхода массива токенов с проверкой по времени. Вроде сделал, проверить.
         foreach ($this->tokens as $token) {
             if ($token->compare($userToken)) return true;
         }

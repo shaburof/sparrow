@@ -23,7 +23,9 @@ Route::post('/test', function () {
 Route::get('/test', function () {
     echo '<h1>get route</h1>';
 
-    echo csrf();
+//    echo csrf();
+    dump(getClass(\Vendor\Sparrow\Core\Csrf\Csrf::class));
+
 
 }, ['name' => 'test']);
 

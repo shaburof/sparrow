@@ -10,15 +10,17 @@
 <body>
 
 <form action="/test" method="post">
- <?php /*<input type="hidden" name="foo" value="test">*/ ?>
- <?php /*<?php echo csrf_field(); ?>*/ ?>
+ <input type="hidden" name="foo" value="test">
+ <?php echo csrf_field(); ?>
+
  <button type="submit">Click</button>
+ <?php  echo '<input type="hidden" name="_token" value=""/>';?>
 </form>
 
 
 <script>
 
- // checkAjax();
+ checkAjax();
 
  function checkAjax() {
  fetch("/test",

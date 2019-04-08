@@ -115,7 +115,7 @@ class BladeOne
     /** @var callable callback of validation. It is used for @canany */
     public $authAnyCallBack;
     /** @var string security token */
-    public $csrf_token="";
+    public $csrf_token="qwe";
     /**
      * Indicates the compile mode.
      * if the constant BLADEONE_MODE is define, then it is used instead of this field.

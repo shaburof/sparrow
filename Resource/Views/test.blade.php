@@ -10,15 +10,16 @@
 <body>
 
 <form action="/test" method="post">
-    {{--<input type="hidden" name="foo" value="test">--}}
-    {{--{!! csrf_field() !!}--}}
+    <input type="hidden" name="foo" value="test">
+    {!! csrf_field() !!}
     <button type="submit">Click</button>
+    @csrf
 </form>
 
 
 <script>
 
-    // checkAjax();
+    checkAjax();
 
     function checkAjax() {
         fetch("/test",
