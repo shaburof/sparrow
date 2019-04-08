@@ -19,17 +19,14 @@ trait ModelHelpers
     /*
      * add created_at and updated_at or change updated_at fields in table if they are present
      */
-    public function updateDateTimeIfSet(array &$values,$action): void
+    public function updateDateTimeIfSet(array &$values, $action): void
     {
-        // :TODO создать класс работы с временем
         if ($this->fieldIsExist('created_at') && $this->fieldIsExist('updated_at')) {
-            $date = new \DateTime('now',new \DateTimeZone(env('TIMEZONE')));
-            $now=$date->format('Y-m-d');
-            if($action==='insert') {
-                $values += ['created_at' => $now];
-                $values += ['updated_at' => $now];
-            }elseif ($action==='update'){
-                $values += ['updated_at' => $now];
+            if ($action === 'insert') {
+                $values += ['created_at' => now()];
+                $values += ['updated_at' => now()];
+            } elseif ($action === 'update') {
+                $values += ['updated_at' => now()];
             }
         }
     }

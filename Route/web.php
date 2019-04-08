@@ -19,30 +19,17 @@ Route::post('/test', function () {
 Route::get('/test', function () {
     echo '<h1>get route</h1>';
 
-//    $footable = \Vendor\Sparrow\Core\Builder::sCreate(\App\Model\footable::class);
-//    $footable->find(31);         //find
-//    $footable->update([
-//        'title'=>'edited'
-//    ]);
-//dd();
+//    $user = \Vendor\Sparrow\Core\Builder::sCreate(\App\Model\User::class);
 
+//    $user->name='new name';
+//    $user->email='new@example.com';
+//    $user->find(2);
+//    $user->delete();
+//   $data = $user->find(3);
+//   dd($data);
+//   dd($data->update(['name'=>'Kola Ivanov 3','email'=>'kola@example.com']));
+//   $user->update(['name'=>'Kola Ivanov 2','email'=>'kola@example.com']);
 
-    $user = \Vendor\Sparrow\Core\Builder::sCreate(\App\Model\User::class);
-
-//    $user->find(1);
-//    $user->update([
-//        'name'=>'Kola Ivanov'
-//    ]);
-    $user->insert([
-        'name'=>'Ola Ivanova',
-        'email'=>'ola@example.com',
-        'password'=>'12345'
-    ]);
-//    dd($data);
-
-//    $db = \Vendor\Sparrow\Core\Builder::sCreate(\Vendor\Sparrow\Core\DB\DB::class);
-//    dump($db->fieldIsExist('created_at', 'user'));
-//    dd($db->tableIsExist('user'));
 
 
 }, ['name' => 'test']);

@@ -127,10 +127,13 @@ echo session()->frameworkSession()->someVariable;
 
 
 env
-env('foo')  // get from .env file foo parameter
+env('foo','default')  // get from .env file foo parameter or get 'default' if 'foo' is missing
 
 
 console commands:
 php sparrow.php help
 php sparrow.php come:command -p -d
 
+DateTime
+now()   // return current date and time
+now('date') or now('time')  // only date or time

@@ -15,7 +15,7 @@ class Model
 
     protected $model;
     protected $db;
-    public $queryBuilder;   // :TODO сделать свойство protected
+    protected $queryBuilder;
 
 
     public function __construct()
@@ -39,7 +39,6 @@ class Model
     public function find($id, $typeOfId = 'id')
     {
         $this->queryBuilder->select()->where($typeOfId, '=', $id);
-//        $prepareQuery = $this->db->raw($this->queryBuilder->build());
         $prepareQuery = $this->get();
         return $prepareQuery->first();
     }

@@ -17,5 +17,4 @@ class UserController
         echo "id is: $id, this is user method in UserController class";
     }
 
-
 }

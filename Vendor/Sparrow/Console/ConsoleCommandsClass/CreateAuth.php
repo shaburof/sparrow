@@ -15,13 +15,14 @@ use Vendor\Sparrow\Core\DB\DBMain;
 
 class CreateAuth extends Create
 {
-    private $createTableQuery = "CREATE TABLE `user` (
+    // :TODO change 'created_at' and 'updated_at' fields to dateTime format. Check how there work if set timestamp format.
+    private $createTableQuery = "CREATE TABLE `User` (
                                       `Id` int(11) NOT NULL AUTO_INCREMENT,
                                       `name` varchar(100) NOT NULL DEFAULT '',
                                       `email` varchar(100) NOT NULL DEFAULT '',
                                       `password` varchar(255) NOT NULL DEFAULT '',
-                                      `created_at` date DEFAULT NULL,
-                                      `updated_at` date DEFAULT NULL,
+                                      `created_at` DATETIME DEFAULT NULL,   
+                                      `updated_at` DATETIME DEFAULT NULL,
                                       PRIMARY KEY (`Id`)
                                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
     protected $authModelDirectoryPath = ROOT . 'App/Model/User.php';
