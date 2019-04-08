@@ -16,14 +16,14 @@ $footable->update([
 });
 
 $footable->find(1);         //find
-$footable()->update([
+$footable->update([
     'title'=>'edited'
 ]);                         // update
 
 $footable->select()->query(function ($q) {
         $q->where('id', '=', 26);
     })->first();                               // find
-$footable()->update([
+$footable->update([
     'title'=>'edited'
 ]);                                            // update
 
@@ -56,6 +56,11 @@ $footable->select()->all()  // ->select('title') только поле 'title'
 find
 $footable = \Vendor\Sparrow\Core\Builder::sCreate(\App\Model\footable::class);
 $data = $footable->find(1);    // select from footable where Id is 1
+
+
+created_at and updated_at
+if the table contains created_at and updated_at fields, they will be updated when inserting and updating
+
 
 raw query
 \Vendor\Sparrow\Core\DB\DB::sraw(['select * from footable'])->all();

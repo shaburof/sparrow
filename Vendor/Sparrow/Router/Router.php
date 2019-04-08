@@ -22,6 +22,7 @@ class Router
 
     public function Start()
     {
+        // ::TODO сделать вывод 404 ошибки если маршрут отсутствует
         $storedRouters = $this->filterBy('type', requestMethod());
         foreach ($storedRouters as $path) {
             $match = $this->compareUriWithStoredRoutes($this->removeGetParametersFromUri($this->uri), $path->uri);

@@ -99,7 +99,8 @@ HTML;
     protected function createControllerFile(): bool
     {
         $this->controllerString.='}'; // add the closing curly brace
-        return (bool)file_put_contents("$this->controllerDirectoryPath$this->controllerName.php", $this->controllerString);
+        return $this->createFile("$this->controllerDirectoryPath$this->controllerName.php", $this->controllerString);
+//        return (bool)file_put_contents("$this->controllerDirectoryPath$this->controllerName.php", $this->controllerString);
     }
 
 

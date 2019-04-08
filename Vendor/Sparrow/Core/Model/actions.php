@@ -39,14 +39,15 @@ trait actions
 
     public function insert(array $values): void
     {
+        $this->updateDateTimeIfSet($values,'insert');
         $this->queryBuilder->insert($values);
         $this->get();
     }
 
     public function update(array $values): object
     {
+        $this->updateDateTimeIfSet($values,'update');
         $this->queryBuilder->update($values);
-
         if ($this->checkAlredySelected()) return $this->get();
         return $this;
     }

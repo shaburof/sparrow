@@ -16,7 +16,12 @@ class Create
 
     protected function searchAdditionalParameters(string $addParam): bool
     {
-        return array_search($addParam, $this->additionalParameters, true)!==false;
+        return array_search($addParam, $this->additionalParameters, true) !== false;
+    }
+
+    protected function createFile(string $fullPathToFile, string $fileContent): bool
+    {
+        return (bool)file_put_contents($fullPathToFile, $fileContent);
     }
 
 }

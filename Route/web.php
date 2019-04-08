@@ -2,9 +2,8 @@
 
 use Vendor\Sparrow\Router\Route;
 
-Route::get('/', function () {
-    render('welcome');
-}, ['name' => 'welcome']);
+
+Route::get('/', 'welcomeController@index', ['name' => 'welcome']);
 
 
 Route::get('/csrf', function () {
@@ -20,31 +19,31 @@ Route::post('/test', function () {
 Route::get('/test', function () {
     echo '<h1>get route</h1>';
 
-    $footable = \Vendor\Sparrow\Core\Builder::sCreate(\App\Model\footable::class);
+//    $footable = \Vendor\Sparrow\Core\Builder::sCreate(\App\Model\footable::class);
+//    $footable->find(31);         //find
+//    $footable->update([
+//        'title'=>'edited'
+//    ]);
+//dd();
 
-    $footable->select()->query(function ($q) {
-        $q->where('id', '>=', 26);
-    })->first();
-    $footable->delete();
 
-//    $footable->delete();
-//    dump($footable->queryBuilder);
+    $user = \Vendor\Sparrow\Core\Builder::sCreate(\App\Model\User::class);
 
-//    dump($data->title);
-//    dd($footable->alredySeleted);
+//    $user->find(1);
+//    $user->update([
+//        'name'=>'Kola Ivanov'
+//    ]);
+    $user->insert([
+        'name'=>'Ola Ivanova',
+        'email'=>'ola@example.com',
+        'password'=>'12345'
+    ]);
+//    dd($data);
 
-//    dump($footable->queryBuilder);
-//    $data = $footable->update([
-//        'title'=> 'edited 6'
-//    ])->query(function($q){
-//        $q->where('Id','=','21');
-//    });
+//    $db = \Vendor\Sparrow\Core\Builder::sCreate(\Vendor\Sparrow\Core\DB\DB::class);
+//    dump($db->fieldIsExist('created_at', 'user'));
+//    dd($db->tableIsExist('user'));
 
-//    $footable->find(21)->update([
-//        'title'=> 'edited 8'
-//    ])->query(function($q){
-//        $q->where('Id','=','21');
-//    });
 
 }, ['name' => 'test']);
 

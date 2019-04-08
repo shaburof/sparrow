@@ -44,14 +44,14 @@ class DBMain
     {
         $this->fetchDataFromDatabase = $this->fetch();
         $this->close();
-        return $this->fetchDataFromDatabase[0];
+        return !empty($this->fetchDataFromDatabase[0]) ? $this->fetchDataFromDatabase[0] : [];
     }
 
     public function last()
     {
         $this->fetchDataFromDatabase = $this->fetch();
         $this->close();
-        return $this->fetchDataFromDatabase[count($this->fetchDataFromDatabase) - 1];
+        return !empty($this->fetchDataFromDatabase[count($this->fetchDataFromDatabase) - 1]) ? $this->fetchDataFromDatabase[count($this->fetchDataFromDatabase) - 1] : [];
     }
 
     protected function prepareQuery(string $query)

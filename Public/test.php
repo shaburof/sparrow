@@ -1,7 +1,8 @@
 <?php
 echo '<pre>';
-$arr = ['-r', '-s'];
 
-var_dump($arr);
-var_dump(array_search('-t', $arr, true));
 
+
+$date=new DateTime('now',new DateTimeZone('Asia/Yekaterinburg'));
+var_dump($date->format('Y-m-d'));
+var_dump($date->format('H:i'));

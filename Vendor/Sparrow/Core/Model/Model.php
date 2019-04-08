@@ -11,11 +11,11 @@ use Vendor\Sparrow\Core\DB\QueryBuilder;
 class Model
 {
     use actions;
+    use ModelHelpers;
 
     protected $model;
     protected $db;
     public $queryBuilder;   // :TODO сделать свойство protected
-//    public $alredySeleted=false;   // :TODO сделать свойство protected
 
 
     public function __construct()
