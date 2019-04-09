@@ -13,48 +13,82 @@ use Vendor\Sparrow\Core\DB\DBMain;
 
 trait actions
 {
-//    public function select($whatToSelect = null, $query): DBMain
-//    {
-//        if (!empty($query) && is_object($query)) {
-//            $this->queryBuilder->select($whatToSelect);
-//            $query($this->queryBuilder);
-//        } else {
-//            $this->queryBuilder->select($whatToSelect);
-//        }
-//        return $this->get();
-//    }
+    // get all data
+    public function all()
+    {
+        return $this->get();
+    }
+
+    // get all data
+    public function get()
+    {
+        return $this->getDataFromDatabase('all');
+    }
+
+    // get first
+    public function first()
+    {
+        return $this->getDataFromDatabase('first');
+    }
+
+    // get last
+    public function last()
+    {
+        return $this->getDataFromDatabase('last');
+    }
+
     public function select($whatToSelect = null): Model
     {
         $this->queryBuilder->select($whatToSelect);
         return $this;
     }
 
-    public function delete(): object
+    public function where($valueOne, $compare = null, $valueTwo = null): Model
     {
-        $this->queryBuilder->delete();
+        if ($valueOne instanceof \Closure) {
+            $this->query($valueOne);
+        } else {
+            $this->queryBuilder->where($valueOne, $compare, $valueTwo);
+        }
 
-        if ($this->checkAlredySelected()) return $this->get();
-        else return $this;
+        return $this;
+    }
+
+    public function find($id, string $typeOfId = 'id'): Model
+    {
+        $this->select()->where($typeOfId, '=', $id);
+        return $this;
     }
 
     public function insert(array $values): void
     {
-        $this->updateDateTimeIfSet($values,'insert');
+        $this->updateDateTimeIfSet($values, 'insert');  // create or update dateTime in created_at and updated_at fields if they are
         $this->queryBuilder->insert($values);
         $this->get();
     }
 
-    public function update(array $values): object
-    {
-        $this->updateDateTimeIfSet($values,'update');
-        $this->queryBuilder->update($values);
-        if ($this->checkAlredySelected()) return $this->get();
-        return $this;
-    }
 
-    protected function checkAlredySelected(): bool
-    {
-        return $this->queryBuilder->getAlredySelected() !== null;
-    }
+//    public function delete(): object
+//    {
+//        $this->queryBuilder->delete();
+//
+//        if ($this->checkAlredySelected()) return $this->get();
+//        else return $this;
+//    }
+//
+
+//
+//    public function update(array $values): object
+//    {
+//        $this->updateDateTimeIfSet($values,'update');
+//        $this->queryBuilder->update($values);
+//        if ($this->checkAlredySelected()) return $this->get();
+//        return $this;
+//    }
+//
+//    protected function checkAlredySelected(): bool
+//    {
+//        return $this->queryBuilder->getAlredySelected() !== null;
+//    }
 
 }

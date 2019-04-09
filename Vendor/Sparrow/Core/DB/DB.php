@@ -29,6 +29,7 @@ class DB extends DBMain
         return $exist;
     }
 
+    // return true if table in database is exist
     public function tableIsExist(string $table): bool
     {
         return $this->fieldIsExist('*', $table);

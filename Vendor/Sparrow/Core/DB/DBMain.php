@@ -22,10 +22,10 @@ class DBMain
 
     }
 
+    // close database connection
     protected function close(): void
     {
-        // :TODO сделать __destruct метод с закрытием соединения, убрать $this->close() из методов all(),first(), last()
-//        unset($this->conn);
+        unset($this->conn);
     }
 
     protected function getBaseConfiguration(): string
@@ -36,21 +36,18 @@ class DBMain
     public function all()
     {
         $this->fetchDataFromDatabase = $this->fetch();
-        $this->close();
         return $this->fetchDataFromDatabase;
     }
 
     public function first()
     {
         $this->fetchDataFromDatabase = $this->fetch();
-        $this->close();
         return !empty($this->fetchDataFromDatabase[0]) ? $this->fetchDataFromDatabase[0] : [];
     }
 
     public function last()
     {
         $this->fetchDataFromDatabase = $this->fetch();
-        $this->close();
         return !empty($this->fetchDataFromDatabase[count($this->fetchDataFromDatabase) - 1]) ? $this->fetchDataFromDatabase[count($this->fetchDataFromDatabase) - 1] : [];
     }
 
@@ -83,13 +80,10 @@ class DBMain
     }
 
     /**
-     * @param $query string
-     * @param $parameters array, default null
-     * @param $class string, default null
+     * @param $query array
      * @return mixed
      */
-//    public function raw(string $query, array $parameters = null, string $class = null): object
-    public function raw(array $query, string $class = null): object
+    public function raw(array $query): object
     {
         $parameters = $query[1] ?? null;
         $query = $query[0];
@@ -102,12 +96,15 @@ class DBMain
         return $this;
     }
 
-    public static function sraw(array $query, string $class = null): object
-//    public static function sraw(string $query, array $parameters = null, string $class = null): object
+    public static function sraw(array $query): object
     {
         $db = new self();
-        return $db->raw($query, $class);
+        return $db->raw($query);
     }
 
+    public function __destruct()
+    {
+        unset($this->conn);
+    }
 
 }

@@ -15,7 +15,7 @@ class Model
 
     protected $model;
     protected $db;
-    protected $queryBuilder;
+    protected $queryBuilder; // :TODO сделать свойство protected
 
 
     public function __construct()
@@ -36,24 +36,22 @@ class Model
         return array_pop($fullClassNameArray);
     }
 
-    public function find($id, $typeOfId = 'id')
-    {
-        $this->queryBuilder->select()->where($typeOfId, '=', $id);
-        $prepareQuery = $this->get();
-        return $prepareQuery->first();
-    }
-
-
-    protected function get(): DBMain
+    /*
+    * get result from table cast as object, $as=[all,first,last]
+    */
+    protected function getDataFromDatabase($as)
     {
         $query = $this->queryBuilder->build();
+
+        dump($this->queryBuilder); // :TODO remove dump
+
         $this->queryBuilder->clearQuery();
-        return $this->db->raw($query);
+        return $this->db->raw($query)->$as();
     }
 
     public function query($cf)
     {
         $cf($this->queryBuilder);
-        return $this->get();
+//        return $this->get();
     }
 }
