@@ -11,22 +11,21 @@ namespace Vendor\Sparrow\Console\ConsoleCommandsClass;
 
 class CreateController extends Create
 {
-    protected $controllerDirectoryPath = ROOT . 'App/Controllers/';
-    protected $controllerName;
-    protected $controllerNamespace = 'App\Controllers';
+    protected $directoryPath = ROOT . 'App/Controllers/';
+    protected $namespace = 'App\Controllers';
     private $controllerString;
     protected $controllerStringWithResourceMethods;
 
     public function __construct($additionalParameters)
     {
-        $this->additionalParameters = $additionalParameters;
-        $this->getControllerNameWithSplitByDots();
+
+        parent::__construct($additionalParameters);
         $this->controllerString = <<<HTML
 <?php
 
-namespace $this->controllerNamespace;
+namespace $this->namespace;
 
-class $this->controllerName
+class $this->className
 {
 
 HTML;
@@ -63,24 +62,11 @@ HTML;
         }
     }
 
-    protected function getControllerNameWithSplitByDots()
-    {
-        $tempControllerName = preg_replace('~\.~', '/', array_shift($this->additionalParameters));
-
-        $explodePath = explode('/', $tempControllerName);
-        if (count($explodePath) > 1) {
-            $this->controllerName = array_pop($explodePath);
-            $this->controllerDirectoryPath .= implode($explodePath, '/') . '/';
-            $this->controllerNamespace .= "\\" . implode($explodePath, '\\');
-        } else {
-            $this->controllerName = $tempControllerName;
-        }
-    }
 
     public function create(): string
     {
-        if ($this->checkIsControllerExists()) {
-            $this->returnString = "controller \"$this->controllerName\" already exist";
+        if ($this->fileExist()) {
+            $this->returnString = "controller \"$this->className\" already exist";
         } else {
             $this->createFolder();
             $this->createControllerFile()
@@ -91,22 +77,11 @@ HTML;
         return $this->returnString . PHP_EOL;
     }
 
-    protected function createFolder(): void
-    {
-        @mkdir($this->controllerDirectoryPath, 0777, true);
-    }
 
     protected function createControllerFile(): bool
     {
-        $this->controllerString.='}'; // add the closing curly brace
-        return $this->createFile("$this->controllerDirectoryPath$this->controllerName.php", $this->controllerString);
-//        return (bool)file_put_contents("$this->controllerDirectoryPath$this->controllerName.php", $this->controllerString);
-    }
-
-
-    protected function checkIsControllerExists(): bool
-    {
-        return file_exists("$this->controllerDirectoryPath$this->controllerName.php");
+        $this->controllerString .= '}'; // add the closing curly brace
+        return $this->createFile($this->controllerString);
     }
 
 }

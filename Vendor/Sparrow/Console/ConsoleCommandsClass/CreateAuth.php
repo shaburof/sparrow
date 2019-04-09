@@ -16,7 +16,7 @@ use Vendor\Sparrow\Core\DB\DBMain;
 class CreateAuth extends Create
 {
     // :TODO change 'created_at' and 'updated_at' fields to dateTime format. Check how there work if set timestamp format.
-    private $createTableQuery = "CREATE TABLE `User` (
+    private $createTableQuery = "CREATE TABLE `user` (
                                       `Id` int(11) NOT NULL AUTO_INCREMENT,
                                       `name` varchar(100) NOT NULL DEFAULT '',
                                       `email` varchar(100) NOT NULL DEFAULT '',
@@ -25,17 +25,20 @@ class CreateAuth extends Create
                                       `updated_at` DATETIME DEFAULT NULL,
                                       PRIMARY KEY (`Id`)
                                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-    protected $authModelDirectoryPath = ROOT . 'App/Model/User.php';
-    protected $modelNamespace = 'App\Model';
+    protected $className='User';
+    protected $directoryPath = ROOT . 'App/Model/';
+    protected $namespace = 'App\Model';
     protected $modelString;
 
 
-    public function __construct()
+    public function __construct($additionalParameters)
     {
+        parent::__construct($additionalParameters);
+
         $this->modelString = <<<HTML
 <?php
 
-namespace $this->modelNamespace;
+namespace $this->namespace;
 
 
 use Vendor\Sparrow\Core\Model\Model;
@@ -45,23 +48,18 @@ class User extends Model
 
 }
 HTML;
+
     }
 
 
     public function create(): string
     {
-        if ($this->checkAuthTableAlreadyExist()) return "Table \"user\" already exists" . PHP_EOL;
+        if ($this->checkTableAlreadyExist('user')) return "Table \"user\" already exists" . PHP_EOL;
 
         $this->createAuthTable();
-        $this->createFile($this->authModelDirectoryPath,$this->modelString);
+        $this->createFile($this->modelString);
 
         return 'Auth table successfully created' . PHP_EOL;
-    }
-
-    protected function checkAuthTableAlreadyExist(): bool
-    {
-        $db = Builder::sCreate(DB::class);
-        return $db->tableIsExist('user');
     }
 
     protected function createAuthTable(): void
