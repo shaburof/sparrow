@@ -11,11 +11,17 @@ Route::get('/test', function () {
 
 
     $footable = new \App\Model\footable();
-
+    $footable->insert([
+        'title' => 'foo',
+        'description' => 'bar',
+        'name' => 'Ola Ivanova'
+    ]);
+//    dd(new \DateTime('now', new \DateTimeZone(env('TIMEZONE'))));
+//dd(now());
 //    $footable->find(31)->delete();
 //    $footable->update(['title'=>'new title']);
 //    $footable->find(98);
-    $footable->update(['title'=>'new title edited'])->where(98)->execute();
+//    $footable->update(['title' => 'new title abc'])->where(98)->execute();
 
 //    dd($footable->select()->where(98)->first()->name);
 //    $footable->update(['title'=>'updated title']);

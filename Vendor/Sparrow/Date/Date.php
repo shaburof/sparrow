@@ -18,13 +18,13 @@ class Date
     public function __construct()
     {
         $this->dateTime = new \DateTime('now', new \DateTimeZone(env('TIMEZONE')));
-        $this->now = $this->dateTime->format('Y-m-d H:m:s');
+        $this->now = $this->dateTime->format('Y-m-d H:i:s');
     }
 
     public function now($format=null): string
     {
         if($format==='date') return $this->dateTime->format('Y-m-d');
-        elseif ($format==='time') return $this->dateTime->format('H:m:s');
+        elseif ($format==='time') return $this->dateTime->format('H:i:s');
         else return $this->now;
     }
 
