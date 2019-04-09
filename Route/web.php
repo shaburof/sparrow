@@ -9,13 +9,14 @@ Route::get('/', 'welcomeController@index', ['name' => 'welcome']);
 Route::get('/test', function () {
     echo '<h1>get route</h1>';
 
+
     $footable = new \App\Model\footable();
 
-    $footable->insert([
-        'title' => 'foo',
-        'description' => 'bar',
-        'name' => 'Ola Ivanova'
-    ]);
+    $data = $footable->update(['title' => 'fooBarBaz'])->where(function ($query) {
+        $query->where('id', '=', '34');
+    })->get();
+//    dd($data);
+//    $footable->find(31)->get();
 
 //    $data = $footable->select(['id','name'])->where('id','>', '31')->all();
 //    $data = $footable->select()->first();

@@ -12,6 +12,7 @@ class DBMain
     protected $stmt;
     protected $fetchDataFromDatabase;
     protected $className;
+    protected $lastInsertId = null;
 
 
     public function __construct($className = null)
@@ -68,6 +69,9 @@ class DBMain
     protected function bindParameters(array $parameters): void
     {
         $this->stmt->execute($parameters);
+
+        $lastInsertId = $this->conn->lastInsertId();
+        $this->lastInsertId = !empty($lastInsertId) ? $lastInsertId : null;
     }
 
     protected function fetch()
@@ -77,6 +81,11 @@ class DBMain
         else $tempFetchAll = $this->stmt->fetchAll(PDO::FETCH_CLASS);
 
         return $tempFetchAll;
+    }
+
+    public function getLastInsertId()
+    {
+        return !empty($this->lastInsertId) ? $this->lastInsertId : null;
     }
 
     /**

@@ -9,14 +9,23 @@
 namespace Vendor\Sparrow\Core\Model;
 
 
+use Vendor\Sparrow\Core\Builder;
 use Vendor\Sparrow\Core\DB\DBMain;
+use Vendor\Sparrow\Core\DB\QueryBuilder;
 
 trait actions
 {
+
+    // get last inserted id
+    protected function getLastInsertId()
+    {
+        return $this->getDataFromDatabase('getLastInsertId');
+    }
+
     // get all data
     public function all()
     {
-        return $this->get();
+        return $this->getDataFromDatabase('all');
     }
 
     // get all data
@@ -60,13 +69,35 @@ trait actions
         return $this;
     }
 
-    public function insert(array $values): void
+    public function insert(array $values): ?int
     {
         $this->updateDateTimeIfSet($values, 'insert');  // create or update dateTime in created_at and updated_at fields if they are
         $this->queryBuilder->insert($values);
-        $this->get();
+
+        return $this->getLastInsertId();
     }
 
+    // :TODO решить нужно ли это оставлять
+//    protected function prepareQueryBuilderForSelect(array $values): QueryBuilder
+//    {
+//        $queryBuilder = Builder::sCreate(QueryBuilder::class, false, $this->getModelName());
+//        $queryBuilder->select();
+//        $countValues = count($values);
+//        foreach ($values as $k => $v) {
+//            if ($countValues !== 1) $queryBuilder->where($k, '=', $v)->and();
+//            else $queryBuilder->where($k, '=', $v);
+//            $countValues--;
+//        }
+//
+//        return $queryBuilder;
+//    }
+
+    public function update(array $values): Model
+    {
+        $this->updateDateTimeIfSet($values, 'update');  // create or update dateTime in created_at and updated_at fields if they are
+        $this->queryBuilder->update($values);
+        return $this;
+    }
 
 //    public function delete(): object
 //    {
@@ -77,18 +108,5 @@ trait actions
 //    }
 //
 
-//
-//    public function update(array $values): object
-//    {
-//        $this->updateDateTimeIfSet($values,'update');
-//        $this->queryBuilder->update($values);
-//        if ($this->checkAlredySelected()) return $this->get();
-//        return $this;
-//    }
-//
-//    protected function checkAlredySelected(): bool
-//    {
-//        return $this->queryBuilder->getAlredySelected() !== null;
-//    }
 
 }

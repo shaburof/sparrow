@@ -15,7 +15,7 @@ class Model
 
     protected $model;
     protected $db;
-    protected $queryBuilder; // :TODO сделать свойство protected
+    public $queryBuilder; // :TODO сделать свойство protected
 
 
     public function __construct()
@@ -39,13 +39,15 @@ class Model
     /*
     * get result from table cast as object, $as=[all,first,last]
     */
-    protected function getDataFromDatabase($as)
+    protected function getDataFromDatabase($as,$queryBuilder=null)
     {
-        $query = $this->queryBuilder->build();
+        $queryBuilder=empty($queryBuilder)?$this->queryBuilder:$queryBuilder;
 
-        dump($this->queryBuilder); // :TODO remove dump
+        $query = $queryBuilder->build();
 
-        $this->queryBuilder->clearQuery();
+        dump($queryBuilder); // :TODO remove dump
+
+        $queryBuilder->clearQuery();
         return $this->db->raw($query)->$as();
     }
 

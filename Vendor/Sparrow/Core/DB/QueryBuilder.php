@@ -45,6 +45,18 @@ class QueryBuilder extends QueryBuilderMain
         $this->parameters = $parsedValues['values'];
     }
 
+    public function update(array $values): void
+    {
+        $parsedValues = $this->parsingValues($values, 'update');
+        $query = "UPDATE {$this->model} SET {$parsedValues['parameters']}";
+        $parameters = $parsedValues['values'];
+
+        $this->query = $query;
+        $this->parameters = $parameters;
+
+    }
+
+//    ---------
 
     public function delete()
     {
@@ -60,18 +72,7 @@ class QueryBuilder extends QueryBuilderMain
 
 
 
-    public function update(array $values): void
-    {
-        $parsedValues = $this->parsingValues($values, 'update');
-        $query = "UPDATE {$this->model} SET {$parsedValues['parameters']}";
-        $parameters = $parsedValues['values'];
 
-        [$query, $parameters] = $this->changeIfcheckAlredySelected($query, $parameters);
-
-        $this->query = $query;
-        $this->parameters = $parameters;
-
-    }
 
     protected function changeIfcheckAlredySelected($query, $parsedValues): array
     {
