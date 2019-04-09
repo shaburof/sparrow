@@ -2,7 +2,7 @@
 echo '<pre>';
 
 
+$a=[98];
+$b=["new title","2019-04-09 15:04:38"];
 
-$date=new DateTime('now',new DateTimeZone('Asia/Yekaterinburg'));
-var_dump($date->format('Y-m-d'));
-var_dump($date->format('H:i'));
+var_dump(array_merge($b,$a));

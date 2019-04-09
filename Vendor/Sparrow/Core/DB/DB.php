@@ -35,4 +35,9 @@ class DB extends DBMain
         return $this->fieldIsExist('*', $table);
     }
 
+    public function status(): ?bool
+    {
+        return $this->statusOfExecutionOperation;
+    }
+
 }

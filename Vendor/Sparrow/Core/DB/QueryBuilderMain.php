@@ -14,6 +14,7 @@ class QueryBuilderMain
     protected $query;
     protected $parameters = [];
     protected $andOr = false;
+    protected $model;
 
     /*
  * build query like ['select * from footable where id = ?',1];
@@ -113,4 +114,13 @@ class QueryBuilderMain
 
         return $this;
     }
+
+    // если в свойстве $this->query сформирован селект, меняем SELECT на $replaceOn. Для методов update(), delete()
+    protected function ifSelectedReplaceSELECT(): ?string
+    {
+        if (!empty($this->query)) return preg_replace("/SELECT.+FROM +{$this->model}/i", "", $this->query);
+
+        return null;
+    }
+
 }

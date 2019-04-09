@@ -13,6 +13,7 @@ class DBMain
     protected $fetchDataFromDatabase;
     protected $className;
     protected $lastInsertId = null;
+    protected $statusOfExecutionOperation=null;
 
 
     public function __construct($className = null)
@@ -68,9 +69,9 @@ class DBMain
 
     protected function bindParameters(array $parameters): void
     {
-        $this->stmt->execute($parameters);
+        $this->statusOfExecutionOperation = $this->stmt->execute($parameters);
 
-        $lastInsertId = $this->conn->lastInsertId();
+        $lastInsertId = $this->conn->lastInsertId();    // get last insert autoincrement id for insert operation
         $this->lastInsertId = !empty($lastInsertId) ? $lastInsertId : null;
     }
 

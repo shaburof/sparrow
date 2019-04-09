@@ -11,8 +11,6 @@ namespace Vendor\Sparrow\Core\DB;
 
 class QueryBuilder extends QueryBuilderMain
 {
-    protected $model;
-
 
 
     public function __construct($model)
@@ -48,50 +46,34 @@ class QueryBuilder extends QueryBuilderMain
     public function update(array $values): void
     {
         $parsedValues = $this->parsingValues($values, 'update');
-        $query = "UPDATE {$this->model} SET {$parsedValues['parameters']}";
-        $parameters = $parsedValues['values'];
-
-        $this->query = $query;
-        $this->parameters = $parameters;
+        $this->query = "UPDATE {$this->model} SET {$parsedValues['parameters']} " . $this->ifSelectedReplaceSELECT();
+        $this->parameters = array_merge($parsedValues['values'],$this->parameters);
 
     }
 
-//    ---------
 
-    public function delete()
+    public function delete(): QueryBuilder
     {
-        $query="DELETE FROM {$this->model} ";
-        $parameters=[];
+//        if (empty($this->query)) {
+//            $this->query = "DELETE FROM {$this->model} ";
+//        } else {
+        $this->query = "DELETE FROM {$this->model} " . $this->ifSelectedReplaceSELECT();
+//        }
 
-        [$query, $parameters] = $this->changeIfcheckAlredySelected($query, $parameters);
-
-        $this->query = $query;
-        $this->parameters = $parameters;
         return $this;
     }
 
-
-
-
-
-    protected function changeIfcheckAlredySelected($query, $parsedValues): array
-    {
-
-        if ($this->alredySeleted !== null) {
-            $query .= " WHERE {$this->alredySeleted[0]} {$this->alredySeleted[1]} ?";
-            array_push($parsedValues, $this->alredySeleted[2]);
-        }
-
-        return [$query, $parsedValues];
-    }
-
-
-
-
-
-
-
-
+// :TODO решить что с этим делать
+//    protected function changeIfcheckAlredySelected($query, $parsedValues): array
+//    {
+//
+//        if ($this->alredySeleted !== null) {
+//            $query .= " WHERE {$this->alredySeleted[0]} {$this->alredySeleted[1]} ?";
+//            array_push($parsedValues, $this->alredySeleted[2]);
+//        }
+//
+//        return [$query, $parsedValues];
+//    }
 
 
 }

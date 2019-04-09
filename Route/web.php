@@ -12,14 +12,36 @@ Route::get('/test', function () {
 
     $footable = new \App\Model\footable();
 
-    $data = $footable->update(['title' => 'fooBarBaz'])->where(function ($query) {
-        $query->where('id', '=', '34');
-    })->get();
+//    $footable->find(31)->delete();
+//    $footable->update(['title'=>'new title']);
+//    $footable->find(98);
+    $footable->update(['title'=>'new title edited'])->where(98)->execute();
+
+//    dd($footable->select()->where(98)->first()->name);
+//    $footable->update(['title'=>'updated title']);
+//    $footable->find(31)->update(['title'=>'updated title']);
+//    $footable->select()->where(32)->delete();
+//    $footable->select()->where(function($query){
+//        $query->where('id','=',31)->or()->where('id','=',32);
+//    })->delete();
+
+//    dump($data);
+    dd($footable->queryBuilder);
+
+//    $footable->insert([
+//        'title' => 'foo',
+//        'description' => 'bar',
+//        'name' => 'Ola Ivanova'
+//    ]);
+//    $data = $footable->update(['title' => 'fooBarBaz3'])->where(function ($query) {
+//        $query->where('id', '>', '1');
+//    })->execute();
 //    dd($data);
 //    $footable->find(31)->get();
 
-//    $data = $footable->select(['id','name'])->where('id','>', '31')->all();
-//    $data = $footable->select()->first();
+//    $data = $footable->select(['id','name'])->where('id','>', '1')->all();
+//dd($data);
+    //    $data = $footable->select()->first();
 
 //    $data = $footable->select()->where(function ($query) {
 //        $query->where('name', '=', 'one name')->or()->where('name', '=', 'two name');

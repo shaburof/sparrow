@@ -15,6 +15,13 @@ use Vendor\Sparrow\Core\DB\QueryBuilder;
 
 trait actions
 {
+    public function execute()
+    {
+
+        $query = $this->queryBuilder->build();
+        $this->queryBuilder->clearQuery();
+        return $this->db->raw($query)->status();
+    }
 
     // get last inserted id
     protected function getLastInsertId()
@@ -56,6 +63,8 @@ trait actions
     {
         if ($valueOne instanceof \Closure) {
             $this->query($valueOne);
+        } elseif (!empty($valueOne) && !isset($compare, $valueTwo)) {
+            $this->queryBuilder->where('id', '=', $valueOne);
         } else {
             $this->queryBuilder->where($valueOne, $compare, $valueTwo);
         }
@@ -77,36 +86,20 @@ trait actions
         return $this->getLastInsertId();
     }
 
-    // :TODO решить нужно ли это оставлять
-//    protected function prepareQueryBuilderForSelect(array $values): QueryBuilder
-//    {
-//        $queryBuilder = Builder::sCreate(QueryBuilder::class, false, $this->getModelName());
-//        $queryBuilder->select();
-//        $countValues = count($values);
-//        foreach ($values as $k => $v) {
-//            if ($countValues !== 1) $queryBuilder->where($k, '=', $v)->and();
-//            else $queryBuilder->where($k, '=', $v);
-//            $countValues--;
-//        }
-//
-//        return $queryBuilder;
-//    }
-
     public function update(array $values): Model
     {
         $this->updateDateTimeIfSet($values, 'update');  // create or update dateTime in created_at and updated_at fields if they are
         $this->queryBuilder->update($values);
+
         return $this;
     }
 
-//    public function delete(): object
-//    {
-//        $this->queryBuilder->delete();
-//
-//        if ($this->checkAlredySelected()) return $this->get();
-//        else return $this;
-//    }
-//
+    public function delete()
+    {
+        $this->queryBuilder->delete();
+
+        return $this;
+    }
 
 
 }

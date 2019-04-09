@@ -16,3 +16,4 @@ function setClass($class)
 {
     return classStore()->set($class);
 }
+
