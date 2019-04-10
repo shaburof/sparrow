@@ -12,8 +12,8 @@ function getClass($class)
 }
 
 // аналогично getClass()
-function setClass($class)
+function setClass($class, string $storeName = null)
 {
-    return classStore()->set($class);
+    return classStore()->set($class, $storeName);
 }
 

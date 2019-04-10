@@ -2,6 +2,7 @@
 
 namespace Vendor\Sparrow\Core\DB;
 
+use Vendor\Sparrow\Core\DBConnectors\BaseConnector;
 use Vendor\Sparrow\Core\DBConnectors\MysqlConnector;
 use PDO;
 use Vendor\Sparrow\Core\Errors\Errors;
@@ -19,7 +20,12 @@ class DBMain
     public function __construct($className = null)
     {
         $baseDriver = $this->getBaseConfiguration();
-        $this->conn = (new $baseDriver)->conn();
+
+        $this->conn = getClass('connector')->conn();
+//        $this->conn = (new $baseDriver)->conn();
+//        $this->conn = getClass(MysqlConnector::class)->conn();
+//        $this->conn = BaseConnector::getDBConnentor()->conn();
+
         $this->className = $className;
 
     }

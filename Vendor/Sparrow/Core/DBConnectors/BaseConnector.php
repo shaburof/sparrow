@@ -8,7 +8,6 @@ abstract class BaseConnector
 {
 
 
-
     protected $conn;
 
     public function conn(): PDO
@@ -16,8 +15,16 @@ abstract class BaseConnector
         return $this->conn;
     }
 
-    protected function createBaseConnector():void
+    protected function createBaseConnector(): void
     {
         $this->conn = new PDO($this->prepareDSN(), $this->user, $this->pass, $this->parameters);
+    }
+
+    // return base connector with env('DBDRIVER') type
+    public static function getDBConnentor(): BaseConnector
+    {
+        $dbClass = '\Vendor\Sparrow\Core\DBConnectors\\' . ucfirst(strtolower(env('DBDRIVER'))) . 'Connector';
+
+        return new $dbClass();
     }
 }

@@ -1,61 +1,108 @@
-insert
-$footable = Builder::sCreate(\App\Model\footable::class);
-$footable->insert([
-    'title' => 'foo',
-    'description' => 'bar',
-    'name' => 'Ola Ivanova'
-]);
-
-updated
-$footable = Builder::sCreate(\App\Model\footable::class);
-
-$footable->update([
-    'title'=>'edited'
-])->query(function($q){
-    $q->where('id','=','23')->or()->where('name','like','kola');
-});
-
-$footable->find(1);         //find
-$footable->update([
-    'title'=>'edited'
-]);                         // update
-
-$footable->select()->query(function ($q) {
-        $q->where('id', '=', 26);
-    })->first();                               // find
-$footable->update([
-    'title'=>'edited'
-]);                                            // update
-
-delete
-$footable->delete()->query(function($q){
-    $q->where('id','=','12');
-});
-
-$footable->find(28);    // find
-$footable->delete();    //delete
-
-$footable->select()->query(function ($q) {
-        $q->where('id', '=', 26);
-    })->first();                             // find
-$footable->delete();                         // delete
-
+$footable = new \App\Model\footable();
 
 select
-$footable = Builder::sCreate(\App\Model\footable::class);
-    $footable->select()->query(function($q){    // or select('id'), select(['id','name'])
-        $q->where('name','=','nata');
+
+// SELECT * FROM footable  WHERE id = ?
+	$data = $footable->find(31)->first();
+
+
+// SELECT * FROM footable
+	$data = $footable->select()->all();	
+	$data = $footable->select()->first();
+	$data = $footable->select()->last();
+
+
+// SELECT id,name FROM footable  WHERE id > ?
+	$date = $footable->select(['id','name'])->where('id','>', '31')->all();	
+
+
+// SELECT * FROM footable  WHERE name = ? OR  name = ?
+    $data = $footable->select()->where(function ($query) {				
+        $query->where('name', '=', 'one name')->or()->where('name', '=', 'two name');
     })->all();
 
-или 
 
-$footable->select()->all()  // ->select('title') только поле 'title'
+// SELECT * FROM footable  WHERE id = ?;   'id' lowercase in table
+	$footable->select()->where(98)->first()
 
-или
+insert
 
-find
-$footable = \Vendor\Sparrow\Core\Builder::sCreate(\App\Model\footable::class);
-$data = $footable->find(1);    // select from footable where Id is 1
+// INSERT INTO footable (title,description,name) VALUES (?,?,?);
+	$id = $footable->insert([
+        	'title' => 'foo',
+        	'description' => 'bar',
+        	'name' => 'Ola Ivanova'
+        ]);
+
+
+	// return id - if there is an autoincrement field in the table, the value of the last record will return, or null if autoincrement field missing
+
+	$footable->title = 'Create new title';
+	$footable->description = 'Create new description';
+        $footable->name = 'Kale Falanso';
+	$footable->model2 = 'some model';
+
+        $id = $footable->save();
+	// return id - if there is an autoincrement field in the table
+
+
+update
+
+// UPDATE footable SET title = ? WHERE id = ?;
+	$footable->update(['title' => 'fooBar'])->where('id','=','31')->execute();
+
+
+//UPDATE footable SET title = ? WHERE id = ? OR  id = ?;
+	$footable->update(['title' => 'fooBarBaz'])->where(function ($query) {
+	     $query->where('id', '=', '31')->or()->where('id', '=', '32');
+	})->execute();
+
+->execute() // return boolean status of operation
+
+
+// UPDATE footable SET title = ?,updated_at = ?  WHERE id = ? AND  name = ?;
+	    $footable->where(function($query){
+        	$query->where('id','=',98)->and()->where('name','=','Ola Ivanova');
+	    })->update(['title'=>'new title 2'])->execute();
+
+// UPDATE footable SET title = ?,updated_at = ?   WHERE id = ?;
+	$footable->find(98)->update(['title'=>'new title'])->execute();
+
+
+    $f = $footable->select()->where('model2', 'like', '%some%')->all();
+    foreach ($f as $value) {
+        $value->name = 'changed';
+        $value->save();
+    }
+
+
+
+delete
+
+// DELETE FROM footable  WHERE id = ?;
+	$footable->delete()->where('id','=',99)->execute()
+
+// DELETE FROM footable  WHERE id = ?'
+	$footable->find(31)->delete()->execute();
+
+// DELETE FROM footable  WHERE id = ?;
+	$footable->select()->where(32)->delete()->execute();
+
+// DELETE FROM footable  WHERE id = ? OR  id = ?;
+	$footable->select()->where(function($query){
+        	$query->where('id','=',31)->or()->where('id','=',32);
+	})->delete()->execute();
+
+// DELETE FROM footable   WHERE id = ? OR  id = ?;
+	$footable->where(function($query){
+        	$query->where('id','=',33)->or()->where('id','=',34);
+        })->delete()->execute();
+
+// delete all fields where 'model2' = 'abc'
+    $f = $footable->select()->where('model2', '=', 'abc')->all();
+    foreach ($f as $value) {
+        $value->delete()->execute();
+    }
 
 
 created_at and updated_at
@@ -73,12 +120,20 @@ raw query
 создать класс
 $footable = Builder::sCreate(\App\Model\footable::class);
 
-сохранить в хранилище классов
-$footable = Builder::sCreate(\App\Model\footable::class);
-setClass($footable);
+store Class in storage
 
-получить класс из хранилища
-getClass(\App\Model\footable::class)
+//store class URL
+setClass(new \Vendor\Sparrow\Core\Url());
+
+//store class with 'connector' name
+setClass(\Vendor\Sparrow\Core\DBConnectors\BaseConnector::getDBConnentor(),'connector');
+
+
+//get from storage
+getClass(\Vendor\Sparrow\Core\Url::class)
+
+// get class with 'connector' name
+getClass('connector')
 
 
 получаем данные от request
@@ -137,3 +192,11 @@ php sparrow.php come:command -p -d
 DateTime
 now()   // return current date and time
 now('date') or now('time')  // only date or time
+
+JSON
+
+// to json format
+JSON(['foo'=>'bar'])	
+
+// from json format to array
+fromJSON('{"foo":"bar"}');

@@ -27,13 +27,14 @@ class ClassStore
         throw new Errors("класс $class отсутствует в хранилище ClassStore");
     }
 
-    public function set(object $class): void
+    public function set(object $class, string $storeName = null): void
     {
         if ($this->checkClassExists($class)) {
             throw new Errors("класс '$class' уже есть в хранилище");
 
         }
-        $this->class += [$this->extractClassNameFromObject($class) => $class];
+        if (empty($storeName)) $this->class += [$this->extractClassNameFromObject($class) => $class];
+        else $this->class += [$storeName => $class];
     }
 
     protected function extractClassNameFromObject(object $class): string

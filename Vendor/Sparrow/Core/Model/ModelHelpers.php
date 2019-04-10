@@ -9,6 +9,9 @@
 namespace Vendor\Sparrow\Core\Model;
 
 
+use Vendor\Sparrow\Core\Builder;
+use Vendor\Sparrow\Core\JSON\handlerJson;
+
 trait ModelHelpers
 {
     protected function fieldIsExist(string $field): bool
@@ -50,4 +53,6 @@ trait ModelHelpers
         }
         return $model;
     }
+
+
 }
