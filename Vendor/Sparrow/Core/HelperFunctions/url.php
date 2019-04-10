@@ -35,18 +35,18 @@ function url($url, $parameters = null): string
     return getClass(\Vendor\Sparrow\Core\Url::class)->url($url, $parameters);
 }
 
-function router(string $name, array $parameters = null)
+function router(string $name, ?array $parameters = null)
 {
     $Router = getClass(\Vendor\Sparrow\Router\Router::class);
-    $uri = $Router->getNamedRouterPath($name)->uri;
+    $uri = $Router->getNamedRouterPath($name,$parameters)->uri;
     if(empty($uri)) throw new Exception('указанное имя в маршрутах не найдено');
-    return url($uri, $parameters);
+    return url($uri, null);
 }
 
-function action(string $action, array $parameters = null)
+function action(string $action, ?array $parameters = null)
 {
     $Router = getClass(\Vendor\Sparrow\Router\Router::class);
-    $uri = $Router->getRouterPathByAction($action)->uri;
+    $uri = $Router->getRouterPathByAction($action,$parameters)->uri;
     if(empty($uri)) throw new Exception('указанное действие в маршрутах не найдено');
-    return url($uri, $parameters);
+    return url($uri, null);
 }

@@ -22,7 +22,7 @@ class Route
     {
         [$uri, $type, $action, $parameters] = $params;
         $path = (object)[
-            'uri' => trim($uri, '/'),
+            'uri' => $uri === '/' ? '/' : trim($uri, '/'),
             'action' => !$action instanceof \Closure ? preg_replace('~\.~', '\\', $action) : $action,
             'type' => $type,
             'parameters' => (object)$parameters

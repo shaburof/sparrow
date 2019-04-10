@@ -6,6 +6,6 @@ class welcomeController
 {
     public function index()
     {
-        render('welcome');
+        return render('welcome');
     }
 }

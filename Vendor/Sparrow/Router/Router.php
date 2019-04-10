@@ -2,6 +2,7 @@
 
 namespace Vendor\Sparrow\Router;
 
+use Vendor\Sparrow\Core\Errors\Errors;
 use Vendor\Sparrow\Core\Validate;
 
 class Router
@@ -32,7 +33,7 @@ class Router
                 return true;
             }
         }
-        return 'false';
+        return 'false'; // :TODO зачем false в виде строки?
     }
 
     protected function sanitizeParameters(array $parameters): array
@@ -47,7 +48,7 @@ class Router
         } elseif (is_string($action)) {
             [$controller, $method] = explode('@', $action);
             $controllerFullName = "\App\Controllers\\$controller";
-            call_user_func_array([\Vendor\Sparrow\Core\Builder::sCreate($controllerFullName), $method], $parameters);
+            echo call_user_func_array([\Vendor\Sparrow\Core\Builder::sCreate($controllerFullName), $method], $parameters);
         }
     }
 
@@ -76,20 +77,38 @@ class Router
         return count($array) > 0 ? $array : null;
     }
 
-    public function getNamedRouterPath(string $name): ?object
+    public function getNamedRouterPath(string $name, ?array $parameters): ?object
     {
         foreach ($this->routePaths as $item) {
             if ($item->parameters->name === $name) {
+                $this->changeQuestionMarksOnValue($item, $parameters);
                 return $item;
             }
         }
         return null;
     }
 
-    public function getRouterPathByAction(string $action): ?object
+    protected function changeQuestionMarksOnValue(object $route, ?array $parameters = null): object
+    {
+        if (empty($parameters)) throw  new Errors('колличество параметров для маршрута не совпадает');
+        $uri = $route->uri;
+        $parametersCount = count($parameters);
+        if (preg_match_all('~\?~', $uri) === $parametersCount) {
+            foreach ($parameters as $param) {
+                $route->uri=preg_replace('~\?~',$param,$route->uri,1);
+            }
+        } else {
+            throw  new Errors('колличество параметров для маршрута не совпадает');
+        }
+
+        return $route;
+    }
+
+    public function getRouterPathByAction(string $action, ?array $parameters=null): ?object
     {
         foreach ($this->routePaths as $item) {
             if ($item->action === $action) {
+                $this->changeQuestionMarksOnValue($item, $parameters);
                 return $item;
             }
         }

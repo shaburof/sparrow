@@ -11,10 +11,13 @@ namespace App\Controllers;
 
 class UserController
 {
-    public function user($id)
+    public function user($a,$b)
     {
-        render('welcome',compact('id'));
-        echo "id is: $id, this is user method in UserController class";
+
+//        return router('test2',[$a,$b]);
+        return action('userController@user',[$a,$b]);
+//        return router('test2',['qwe'=>'asd']);
+        return render('test');
     }
 
 }

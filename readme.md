@@ -149,6 +149,15 @@ Routing
 
 Route::get('/','UserController@main',['name'=>'main']);
 
+Route::get('/test/?/?','userController@user');
+in userController in user() method:
+public function user($firstValue,$secondValue)
+    {
+        return render('test',compact('firstValue','secondValue'));
+    }
+    
+    
+
 Route::get('/user/?/?',function($a,$b){
     var_dump("$a and $b");
 },['name'=>'closure']);
@@ -157,14 +166,14 @@ Route::get('/user/?','UserController@user',['name'=>'user']);   // for get reque
 Route::get('/user/?','Abc.UserController@user',['name'=>'user']);   // for get request for /App/Controllers/Abc/UserController.php controller path
 Route::post('/user/?','UserController@user',['name'=>'user']);  //for post request
 
-get full url woth parameters
+get full url with parameters
 url('foo',['id'=>123]) // return http[s]://domain.name/foo&id=15
 
 get route full path by name with parameters
-router('index',['foo'=>'bar'])
+router('index',['foo','bar'])    // return url with the replacement of characters questioned on the values ​​in the array
 
 get full path by action with parameters
-action('UserController@user',['foo'=>'bar'])
+action('UserController@user',['foo','bar'])   // return url with the replacement of characters questioned on the values ​​in the array
 
 csrf
 csrf()  // get csrf token

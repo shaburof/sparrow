@@ -20,9 +20,9 @@ class View
     }
 
 
-    public function render(string $view, array $variables = []): void
+    public function render(string $view, array $variables = []): string
     {
-        echo $this->blade->run($view, $variables);
+        return $this->blade->run($view, $variables);
         die();
     }
 

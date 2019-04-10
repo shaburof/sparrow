@@ -1,8 +1,15 @@
 <?php
 echo '<pre>';
 
-$key='a12345';
+$str='http://localhost:8008/test2/?/and/?';
 
-$$key='base connection';
+var_dump(preg_match('~\?~',$str));
+var_dump(preg_match_all('~\?~',$str));
 
-var_dump($a12345);
+$params=['a123','a789'];
+foreach ($params as $param) {
+    $str=preg_replace('~\?~',$param,$str,1);
+}
+
+var_dump($str);
+
