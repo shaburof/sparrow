@@ -51,7 +51,9 @@ class Model
         $queryBuilder->clearQuery();
 
         $model = $this->db->raw($query)->$as();
-        return $this->markWasSelectedAttribute($model);
+
+        if (isJson()) return JSON($this->markWasSelectedAttribute($model));
+        else return $this->markWasSelectedAttribute($model);
 
     }
 

@@ -15,6 +15,8 @@ class Request
 {
     protected $validate;
     protected $_csrf;
+    protected $headers;
+    protected $jsonRequest = false;
 
     public function __construct()
     {
@@ -23,8 +25,23 @@ class Request
         $this->validate = getClass(Validate::class);
         $this->getDataFromRequest();
 
+        $this->headers = getallheaders();
+        $this->checkJsonRequest();
+
         if (requestMethod() === 'POST') $this->checkCsrfToken();
     }
+
+
+    public function isJsonRequest(): bool
+    {
+        return $this->jsonRequest;
+    }
+
+    protected function checkJsonRequest(): void
+    {
+        if (strtolower(@$this->headers['Content-Type']) === 'application/json') $this->jsonRequest = true;
+    }
+
 
     protected function getDataFromRequest(): void
     {

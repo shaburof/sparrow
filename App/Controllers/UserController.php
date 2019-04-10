@@ -13,10 +13,9 @@ use App\Model\footable;
 
 class UserController
 {
-    public function user($a)
+    public function user()
     {
-        $foo=$a;
-        return render('test',compact('foo'));
+        return render('test');
     }
 
 }

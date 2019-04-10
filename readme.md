@@ -12,6 +12,8 @@ $footable = new \App\Model\footable();
 *	$data = $footable->select()->first();
 *	$data = $footable->select()->last();<br>
 
+if header exist 'Content-Type': 'application/json' then model() class will return data in JSON type
+
 get count
 *   $footable = new \App\Model\footable();
 *    $count = $footable->select(['count(*) as count'])->all();

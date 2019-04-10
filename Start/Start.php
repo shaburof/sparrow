@@ -17,7 +17,7 @@ setClass(new \Vendor\Sparrow\Date\Date());
 
 setClass(new \Vendor\Sparrow\Core\Session\Session());
 
-setClass(new \Vendor\Sparrow\Core\Csrf\Csrf(2, 30));
+setClass(new \Vendor\Sparrow\Core\Csrf\Csrf(20, 30));
 
 setClass(new \Vendor\Sparrow\Core\Builder());
 setClass(new \Vendor\Sparrow\Core\Validate());
