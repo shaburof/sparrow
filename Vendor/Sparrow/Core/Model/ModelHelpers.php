@@ -26,8 +26,28 @@ trait ModelHelpers
                 $values += ['created_at' => now()];
                 $values += ['updated_at' => now()];
             } elseif ($action === 'update') {
-                $values += ['updated_at' => now()];
+                if (empty($values['updated_at'])) $values += ['updated_at' => now()];
+                else $values['updated_at'] = now();
             }
         }
+    }
+
+
+    //throw Error if 'id' field is empty
+    protected function checkIdIsNotEmpty(array $values): void
+    {
+        if (empty($values[$this->id])) throw new Errors("| $this->id field is missing |");
+    }
+
+    protected function markWasSelectedAttribute($model)
+    {
+        if (is_object($model)) $model->wasSelected = true;
+        elseif (is_array($model)) {
+            $model = array_map(function ($item) {
+                $item->wasSelected = true;
+                return $item;
+            }, $model);
+        }
+        return $model;
     }
 }

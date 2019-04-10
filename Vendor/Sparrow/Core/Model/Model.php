@@ -13,10 +13,14 @@ class Model
     use actions;
     use ModelHelpers;
 
+    // name autoincrement field in table
+    protected $id = 'id';
+
+    // :TODO make protected fields name with prefix, or not store attributes in Model class
     protected $model;
     protected $db;
-    public $queryBuilder; // :TODO сделать свойство protected
-
+    protected $queryBuilder;
+    protected $wasSelected = false;
 
     public function __construct()
     {
@@ -39,16 +43,16 @@ class Model
     /*
     * get result from table cast as object, $as=[all,first,last]
     */
-    protected function getDataFromDatabase($as,$queryBuilder=null)
+    protected function getDataFromDatabase($as, $queryBuilder = null)
     {
-        $queryBuilder=empty($queryBuilder)?$this->queryBuilder:$queryBuilder;
-
+        $queryBuilder = empty($queryBuilder) ? $this->queryBuilder : $queryBuilder;
         $query = $queryBuilder->build();
 
-        dump($queryBuilder); // :TODO remove dump
-
         $queryBuilder->clearQuery();
-        return $this->db->raw($query)->$as();
+
+        $model = $this->db->raw($query)->$as();
+        return $this->markWasSelectedAttribute($model);
+
     }
 
     public function query($cf)

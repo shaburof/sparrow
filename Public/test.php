@@ -1,8 +1,8 @@
 <?php
 echo '<pre>';
 
+$key='a12345';
 
-$a=[98];
-$b=["new title","2019-04-09 15:04:38"];
+$$key='base connection';
 
-var_dump(array_merge($b,$a));
+var_dump($a12345);

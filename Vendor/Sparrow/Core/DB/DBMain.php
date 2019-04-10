@@ -69,7 +69,7 @@ class DBMain
 
     protected function bindParameters(array $parameters): void
     {
-        $this->statusOfExecutionOperation = $this->stmt->execute($parameters);
+        $this->statusOfExecutionOperation = $this->stmt->execute($parameters); // $this->statusOfExecutionOperation - store status of operation
 
         $lastInsertId = $this->conn->lastInsertId();    // get last insert autoincrement id for insert operation
         $this->lastInsertId = !empty($lastInsertId) ? $lastInsertId : null;

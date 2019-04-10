@@ -12,12 +12,13 @@ namespace Vendor\Sparrow\Core\Model;
 use Vendor\Sparrow\Core\Builder;
 use Vendor\Sparrow\Core\DB\DBMain;
 use Vendor\Sparrow\Core\DB\QueryBuilder;
+use Vendor\Sparrow\Core\Errors\Errors;
 
 trait actions
 {
+    // execute PDO query without fetching data
     public function execute()
     {
-
         $query = $this->queryBuilder->build();
         $this->queryBuilder->clearQuery();
         return $this->db->raw($query)->status();
@@ -64,7 +65,7 @@ trait actions
         if ($valueOne instanceof \Closure) {
             $this->query($valueOne);
         } elseif (!empty($valueOne) && !isset($compare, $valueTwo)) {
-            $this->queryBuilder->where('id', '=', $valueOne);
+            $this->queryBuilder->where($this->id, '=', $valueOne);
         } else {
             $this->queryBuilder->where($valueOne, $compare, $valueTwo);
         }
@@ -88,18 +89,40 @@ trait actions
 
     public function update(array $values): Model
     {
+
         $this->updateDateTimeIfSet($values, 'update');  // create or update dateTime in created_at and updated_at fields if they are
         $this->queryBuilder->update($values);
-
         return $this;
     }
 
     public function delete()
     {
+        if ($this->wasSelected) {
+            $values = getVars($this);
+            $this->checkIdIsNotEmpty($values);
+            $this->where($values[$this->id]);
+        }
         $this->queryBuilder->delete();
 
         return $this;
     }
 
+    public function save()
+    {
+        $id = $this->id;
+
+        $values = getVars($this);
+        if ($this->wasSelected) {
+            $this->checkIdIsNotEmpty($values);
+
+            $this->where($values[$id]);
+            unset($values[$id]);
+            $result = $this->update($values)->execute();
+        } else {
+            $result = $this->insert($values);
+        }
+
+        return $result;
+    }
 
 }
