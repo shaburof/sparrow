@@ -54,14 +54,15 @@ class QueryBuilder extends QueryBuilderMain
 
     public function delete(): QueryBuilder
     {
-//        if (empty($this->query)) {
-//            $this->query = "DELETE FROM {$this->model} ";
-//        } else {
         $this->query = "DELETE FROM {$this->model} " . $this->ifSelectedReplaceSELECT();
-//        }
 
         return $this;
     }
+
+// :TODO решить что с этим делать
+//    public function count(){
+//        $this->query = $this->insertCount();
+//    }
 
 // :TODO решить что с этим делать
 //    protected function changeIfcheckAlredySelected($query, $parsedValues): array

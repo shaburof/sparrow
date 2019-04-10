@@ -9,15 +9,14 @@
 namespace App\Controllers;
 
 
+use App\Model\footable;
+
 class UserController
 {
-    public function user($a,$b)
+    public function user($a)
     {
-
-//        return router('test2',[$a,$b]);
-        return action('userController@user',[$a,$b]);
-//        return router('test2',['qwe'=>'asd']);
-        return render('test');
+        $foo=$a;
+        return render('test',compact('foo'));
     }
 
 }

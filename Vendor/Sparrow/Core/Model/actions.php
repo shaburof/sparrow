@@ -125,4 +125,8 @@ trait actions
         return $result;
     }
 
+    public function count(){
+        $this->queryBuilder->count();
+        return $this;
+    }
 }

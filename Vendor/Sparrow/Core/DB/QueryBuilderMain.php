@@ -123,4 +123,11 @@ class QueryBuilderMain
         return null;
     }
 
+    // :TODO решить что с этим делать
+//    protected function insertCount(): ?string
+//    {
+//        if (!empty($this->query)) return preg_replace('/select.+FROM/i','SELECT COUNT(*) as count FROM', $this->query);
+//        return $this->query;
+//    }
+
 }

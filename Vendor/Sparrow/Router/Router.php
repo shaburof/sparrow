@@ -16,7 +16,7 @@ class Router
     public function __construct()
     {
         $this->routePaths = getClass(\Vendor\Sparrow\Router\RouteStore::class)->getPaths();
-        $this->uri = trim(uri(), '/');
+        $this->uri = trim(uri(), '/')===''?'/':trim(uri(), '/');
         $this->validate = getClass(Validate::class);
     }
 
@@ -44,7 +44,7 @@ class Router
     protected function launchAction($action, $parameters)
     {
         if ($action instanceof \Closure) {
-            call_user_func_array($action, $parameters);
+            echo call_user_func_array($action, $parameters);
         } elseif (is_string($action)) {
             [$controller, $method] = explode('@', $action);
             $controllerFullName = "\App\Controllers\\$controller";
@@ -90,7 +90,8 @@ class Router
 
     protected function changeQuestionMarksOnValue(object $route, ?array $parameters = null): object
     {
-        if (empty($parameters)) throw  new Errors('колличество параметров для маршрута не совпадает');
+        if (empty($parameters)) return $route;
+
         $uri = $route->uri;
         $parametersCount = count($parameters);
         if (preg_match_all('~\?~', $uri) === $parametersCount) {

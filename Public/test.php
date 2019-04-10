@@ -1,15 +1,9 @@
 <?php
 echo '<pre>';
 
-$str='http://localhost:8008/test2/?/and/?';
+$str='SELECT id FROM footable';
 
-var_dump(preg_match('~\?~',$str));
-var_dump(preg_match_all('~\?~',$str));
-
-$params=['a123','a789'];
-foreach ($params as $param) {
-    $str=preg_replace('~\?~',$param,$str,1);
-}
+    $str=preg_replace('/select.+FROM/i','SELECT COUNT(*) as count FROM',$str);
 
 var_dump($str);
 

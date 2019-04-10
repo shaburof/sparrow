@@ -1,15 +1,21 @@
+#Work with database
+create table object<br>
 $footable = new \App\Model\footable();
 
-select
+### select
 
 // SELECT * FROM footable  WHERE id = ?
-	$data = $footable->find(31)->first();
-
+*   $data = $footable->find(31)->first();
 
 // SELECT * FROM footable
-	$data = $footable->select()->all();	
-	$data = $footable->select()->first();
-	$data = $footable->select()->last();
+*	$data = $footable->select()->all();	
+*	$data = $footable->select()->first();
+*	$data = $footable->select()->last();<br>
+
+get count
+*   $footable = new \App\Model\footable();
+*    $count = $footable->select(['count(*) as count'])->all();
+*   $count->count
 
 
 // SELECT id,name FROM footable  WHERE id > ?
@@ -171,10 +177,11 @@ url('foo',['id'=>123]) // return http[s]://domain.name/foo&id=15
 
 get route full path by name with parameters
 router('index',['foo','bar'])    // return url with the replacement of characters questioned on the values ​​in the array
+router('index',['foo','bar'],['foo'=>'bar']) //with ?foo=bar
 
 get full path by action with parameters
 action('UserController@user',['foo','bar'])   // return url with the replacement of characters questioned on the values ​​in the array
-
+action('UserController@user',['foo','bar'],['foo'=>'bar']) //with ?foo=bar
 csrf
 csrf()  // get csrf token
 {!! csrf_field() !!}    // get csrf field in HTML form

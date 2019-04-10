@@ -2,6 +2,7 @@
 
 <?php $this->startSection('content'); ?>
  <h1>test view template</h1>
+ <p><?php echo static::e($foo); ?></p>
 <?php $this->stopSection(); ?>
 
 <?php if (@$_shouldextend[1]) { echo $this->runChild('app.master'); } ?>
