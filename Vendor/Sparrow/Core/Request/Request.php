@@ -28,13 +28,23 @@ class Request
         $this->headers = getallheaders();
         $this->checkJsonRequest();
 
+        $this->getCsrfFromHeader();
         if (requestMethod() === 'POST') $this->checkCsrfToken();
     }
 
+    protected function getCsrfFromHeader() :void
+    {
+        if (!empty($this->headers['X-CSRF-Token'])) $this->csrf = $this->headers['X-CSRF-Token'];
+    }
 
     public function isJsonRequest(): bool
     {
         return $this->jsonRequest;
+    }
+
+    public function getHeaders()
+    {
+        return $this->headers;
     }
 
     protected function checkJsonRequest(): void

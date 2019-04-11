@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
  <meta charset="UTF-8">
+ <meta name="csrf-token" content="<?php echo static::e(csrf()); ?>">
  <link href="/css/app/vuetify.min.css" rel="stylesheet">
  <link rel="stylesheet" href="<?php echo static::e(url('/css/app/roboto.min.css')); ?>">
  <link rel="stylesheet" href="<?php echo static::e(url('/css/app/material-icons.min.css')); ?>">
@@ -10,13 +11,20 @@
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
  <meta http-equiv="X-UA-Compatible" content="ie=edge">
  <title>Document</title>
+ <script src="<?php echo static::e(url('/js/app/vue.js')); ?>"></script>
+ <script src="<?php echo static::e(url('/js/app/axios.min.js')); ?>"></script>
+ <script src="<?php echo static::e(url('/js/app/vuetify.js')); ?>"></script>
 </head>
 <body>
+<script>
+ const csrf_token=document.head.querySelector("[name~=csrf-token][content]").content;
+ axios.defaults.headers.common['X-CSRF-Token'] = csrf_token;
+</script>
 <div id="app">
  <?php echo $this->yieldContent('content'); ?>
 </div>
-<script src="<?php echo static::e(url('/js/app/vue.js')); ?>"></script>
-<script src="<?php echo static::e(url('/js/app/vuetify.js')); ?>"></script>
+
+
 <?php echo $this->yieldContent('script'); ?>
 </body>
 </html>

@@ -9,9 +9,10 @@ Route::get('/test2', 'userController@user', ['name' => 'test2']);
 
 Route::get('/test', function () {
     echo '<h1>get route</h1>';
-
-    dd(csrf());
-    return dd((new \App\Model\foo())->select()->all());
+//    dump(csrf());
+//    dd(getClass(\Vendor\Sparrow\Core\Csrf\Csrf::class));
+//    dump(request()->getHeaders());
+    dd( (new \App\Model\footable())->select()->all());
 
 
 }, ['name' => 'test']);
@@ -19,6 +20,5 @@ Route::get('/test', function () {
 
 Route::post('/test', function () {
 
-
-    return (new \App\Model\foo())->select()->all();
+    return (new \App\Model\footable())->select()->all();
 });

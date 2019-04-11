@@ -54,5 +54,12 @@ trait ModelHelpers
         return $model;
     }
 
+    // if request is ajax then send data as json
+    protected function decideHowToShipDataAndSend($model)
+    {
+        if (isJson()) return JSON($this->markWasSelectedAttribute($model));
+        else return $this->markWasSelectedAttribute($model);
+    }
+
 
 }

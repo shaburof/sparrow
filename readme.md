@@ -113,20 +113,21 @@ delete
     }
 
 
-created_at and updated_at
-if the table contains created_at and updated_at fields, they will be updated when inserting and updating
+####created_at and updated_at
+*   if the table contains created_at and updated_at fields, they will be updated when inserting and updating
 
+#### in the class that inherits the Model class, set the protect attribute $id to the name of the autoincrement field of the table
+*   protected $id="Id";
 
-raw query
-\Vendor\Sparrow\Core\DB\DB::sraw(['select * from footable'])->all();
+#### raw query
+*   \Vendor\Sparrow\Core\DB\DB::sraw(['select * from footable'])->all();
 
-->all()     все записи
-->first()   первая
-->last()    последняя
+*   ->all()     все записи
+*   ->first()   первая
+*   ->last()    последняя
  
-
-создать класс
-$footable = Builder::sCreate(\App\Model\footable::class);
+####создать класс
+*   $footable = Builder::sCreate(\App\Model\footable::class);
 
 store Class in storage
 

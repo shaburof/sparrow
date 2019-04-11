@@ -52,8 +52,9 @@ class Model
 
         $model = $this->db->raw($query)->$as();
 
-        if (isJson()) return JSON($this->markWasSelectedAttribute($model));
-        else return $this->markWasSelectedAttribute($model);
+//        if (isJson()) return JSON($this->markWasSelectedAttribute($model)); // :TODO потом убрать
+//        else return $this->markWasSelectedAttribute($model);
+        return $this->decideHowToShipDataAndSend($this->markWasSelectedAttribute($model));
 
     }
 
