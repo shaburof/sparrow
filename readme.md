@@ -33,6 +33,12 @@ get count
 // SELECT * FROM footable  WHERE id = ?;   'id' lowercase in table
 	$footable->select()->where(98)->first()
 
+####select id of current query
+*   $foobar = new \App\Model\footable();
+*   $d = $foobar->find(2)->first();
+*   echo $d->getId();
+    
+    
 insert
 
 // INSERT INTO footable (title,description,name) VALUES (?,?,?);

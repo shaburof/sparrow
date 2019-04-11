@@ -14,7 +14,14 @@ trait ValidateMethods
 // экранирием теги
     function protectionFromTags($string)
     {
-        return htmlentities($string, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        if (is_array($string)) {
+            return array_map(function ($item) {
+                if(is_array($item)) return $this->protectionFromTags($item);
+                else return htmlentities($item, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            }, $string);
+        } else {
+            return htmlentities($string, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        }
     }
 
 // экранируем кавычки одинарные и двойные
@@ -34,6 +41,14 @@ trait ValidateMethods
     {
         return filter_var($float, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     }
+
+//    protected function ifEnterArray($string){
+//        if(is_array($string)){
+//
+//        }
+//
+//        return
+//    }
 
 // только допустимые для электронного адреса символы
     function sanitizeEmail($email)

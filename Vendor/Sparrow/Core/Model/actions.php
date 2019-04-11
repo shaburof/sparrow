@@ -24,6 +24,12 @@ trait actions
         return $this->db->raw($query)->status();
     }
 
+    public function getId()
+    {
+        $idField = $this->autoincrementField;
+        return $this->$idField;
+    }
+
     // get last inserted id
     protected function getLastInsertId()
     {
@@ -65,7 +71,7 @@ trait actions
         if ($valueOne instanceof \Closure) {
             $this->query($valueOne);
         } elseif (!empty($valueOne) && !isset($compare, $valueTwo)) {
-            $this->queryBuilder->where($this->id, '=', $valueOne);
+            $this->queryBuilder->where($this->autoincrementField, '=', $valueOne);
         } else {
             $this->queryBuilder->where($valueOne, $compare, $valueTwo);
         }
@@ -100,7 +106,7 @@ trait actions
         if ($this->wasSelected) {
             $values = getVars($this);
             $this->checkIdIsNotEmpty($values);
-            $this->where($values[$this->id]);
+            $this->where($values[$this->autoincrementField]);
         }
         $this->queryBuilder->delete();
 
@@ -109,7 +115,7 @@ trait actions
 
     public function save()
     {
-        $id = $this->id;
+        $id = $this->autoincrementField;
 
         $values = getVars($this);
         if ($this->wasSelected) {
@@ -125,7 +131,8 @@ trait actions
         return $result;
     }
 
-    public function count(){
+    public function count()
+    {
         $this->queryBuilder->count();
         return $this;
     }

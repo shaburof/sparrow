@@ -39,7 +39,7 @@ trait ModelHelpers
     //throw Error if 'id' field is empty
     protected function checkIdIsNotEmpty(array $values): void
     {
-        if (empty($values[$this->id])) throw new Errors("| $this->id field is missing |");
+        if (empty($values[$this->autoincrementField])) throw new Errors("| autoincrement field is missing |");
     }
 
     protected function markWasSelectedAttribute($model)

@@ -8,6 +8,6 @@ use Vendor\Sparrow\Core\Model\Model;
 class footable extends Model
 {
 
-    protected $id = 'Id';
+    protected $autoincrementField = 'Id';
 
 }

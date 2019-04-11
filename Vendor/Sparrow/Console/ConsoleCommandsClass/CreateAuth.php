@@ -23,9 +23,10 @@ class CreateAuth extends Create
                                       `password` varchar(255) NOT NULL DEFAULT '',
                                       `created_at` DATETIME DEFAULT NULL,   
                                       `updated_at` DATETIME DEFAULT NULL,
-                                      PRIMARY KEY (`Id`)
+                                      PRIMARY KEY (`Id`),
+                                      UNIQUE KEY `email` (`email`)
                                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-    protected $className='User';
+    protected $className = 'User';
     protected $directoryPath = ROOT . 'App/Model/';
     protected $namespace = 'App\Model';
     protected $modelString;
@@ -34,7 +35,17 @@ class CreateAuth extends Create
     public function __construct($additionalParameters)
     {
         parent::__construct($additionalParameters);
-
+        $nameLoginField = env('NAMELOGINFIELD' ?? 'email');
+        $this->createTableQuery = "CREATE TABLE `user` (
+                                      `Id` int(11) NOT NULL AUTO_INCREMENT,
+                                      `name` varchar(100) NOT NULL DEFAULT '',
+                                      `email` varchar(100) NOT NULL DEFAULT '',
+                                      `password` varchar(255) NOT NULL DEFAULT '',
+                                      `created_at` DATETIME DEFAULT NULL,   
+                                      `updated_at` DATETIME DEFAULT NULL,
+                                      PRIMARY KEY (`Id`),
+                                      UNIQUE KEY `email` (`{$nameLoginField}`)
+                                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         $this->modelString = <<<HTML
 <?php
 
@@ -45,6 +56,7 @@ use Vendor\Sparrow\Core\Model\Model;
 
 class User extends Model
 {
+    protected \$autoincrementField = 'Id';
 
 }
 HTML;

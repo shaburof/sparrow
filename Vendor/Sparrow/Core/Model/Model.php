@@ -13,8 +13,8 @@ class Model
     use actions;
     use ModelHelpers;
 
-    // name autoincrement field in table
-    protected $id = 'id';
+    // name autoincrement field in table autoincrementField
+    protected $autoincrementField = 'id';
 
     // :TODO make protected fields name with prefix, or not store attributes in Model class
     protected $model;

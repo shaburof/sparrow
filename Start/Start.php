@@ -31,6 +31,8 @@ setClass(new \Vendor\Sparrow\Views\View());
 setClass(\Vendor\Sparrow\Core\DBConnectors\BaseConnector::getDBConnentor(),'connector');
 
 
+setClass(new \Vendor\Sparrow\Auth\Auth());
+
 setClass(new \Vendor\Sparrow\Router\RouteStore());
 require ROOT . 'Route/web.php';
 setClass(new \Vendor\Sparrow\Router\Router());

@@ -7,5 +7,5 @@ use Vendor\Sparrow\Core\Model\Model;
 
 class User extends Model
 {
-
+    protected $autoincrementField = 'Id';
 }

@@ -26,6 +26,7 @@ class Request
         $this->getDataFromRequest();
 
         $this->headers = !empty(requestMethod())?getallheaders():[];
+//        $this->headers = !empty(requestMethod())? protectionFromTags(getallheaders()):[];
         $this->checkJsonRequest();
 
         $this->getCsrfFromHeader();
