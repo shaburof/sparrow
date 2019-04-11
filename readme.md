@@ -185,11 +185,14 @@ router('index',['foo','bar'],['foo'=>'bar']) //with ?foo=bar
 get full path by action with parameters
 action('UserController@user',['foo','bar'])   // return url with the replacement of characters questioned on the values ​​in the array
 action('UserController@user',['foo','bar'],['foo'=>'bar']) //with ?foo=bar
-csrf
-csrf()  // get csrf token
-{!! csrf_field() !!}    // get csrf field in HTML form
 
-session
+#### csrf
+csrf()  // get csrf token
+*   {!! csrf_field() !!}    // get csrf field in HTML form
+
+the token must be when sending a POST method in the csrf field or in the header <meta name = "csrf-token" content = "{{csrf ()}}">
+
+#### session
 
 session()->foo='bar'    //store in session
 echo session()->foo     // get value from session

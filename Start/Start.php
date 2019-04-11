@@ -23,6 +23,7 @@ setClass(new \Vendor\Sparrow\Core\Builder());
 setClass(new \Vendor\Sparrow\Core\Validate());
 setClass(new \Vendor\Sparrow\Core\Url());
 setClass(new \Vendor\Sparrow\Core\Request\Request());
+setClass(new \Vendor\Sparrow\Core\Response\Response());
 setClass(new \Vendor\Sparrow\Views\View());
 
 //setClass(new \Vendor\Sparrow\Core\DB\DB()); // :TODO убрал

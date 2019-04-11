@@ -33,6 +33,7 @@ class Router
                 return true;
             }
         }
+        response(404,'Page not found');
         return 'false'; // :TODO зачем false в виде строки?
     }
 
@@ -44,7 +45,7 @@ class Router
     protected function launchAction($action, $parameters)
     {
         if ($action instanceof \Closure) {
-            echo call_user_func_array($action, $parameters);
+            echo call_user_func_array($action, $parameters); //:TODO send throw responce()
         } elseif (is_string($action)) {
             [$controller, $method] = explode('@', $action);
             $controllerFullName = "\App\Controllers\\$controller";
