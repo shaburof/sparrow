@@ -12,12 +12,12 @@ namespace Vendor\Sparrow\Core\JSON;
 class handlerJson
 {
 
-    public function JSON(array $data): string
+    public function JSON($data): string
     {
         return json_encode($data);
     }
 
-    public function fromJSON(string $data):array
+    public function fromJSON(string $data)
     {
         return json_decode($data,true);
     }

@@ -1,9 +1,19 @@
 <?php
 echo '<pre>';
 
-$str='SELECT id FROM footable';
+class A
+{
 
-    $str=preg_replace('/select.+FROM/i','SELECT COUNT(*) as count FROM',$str);
+    public function __construct()
+    {
+        $this->foo();
+    }
 
-var_dump($str);
+    public function foo()
+    {
+        return 'string';
+    }
 
+}
+
+echo (new A())->foo();

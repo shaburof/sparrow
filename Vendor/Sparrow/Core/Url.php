@@ -61,14 +61,15 @@ class Url
     public function url(string $url, array $parameters = null): string
     {
         $addToUrl = sanitizeUrl(trim($url, '/'));
-        $params = null;
-        if ($parameters) {
-            $params = '?';
-            foreach ($parameters as $k => $v) {
-                $params .= "$k=$v&";
-            }
-            $params = rtrim($params, '&');
-        }
+        $params = !empty($parameters) ? '?' . http_build_query($parameters) : '';
+//        $params = null;
+//        if ($parameters) {    // :TODO заменил на http_build_query()
+//            $params = '?';
+//            foreach ($parameters as $k => $v) {
+//                $params .= "$k=$v&";
+//            }
+//            $params = rtrim($params, '&');
+//        }
         $scheme = secure() ? 'https' : 'http';
         $domainWithPort = domainWithPort();
         $url = "{$scheme}://{$domainWithPort}/$addToUrl$params";

@@ -17,8 +17,10 @@
 </head>
 <body>
 <script>
-    const csrf_token=document.head.querySelector("[name~=csrf-token][content]").content;
-    axios.defaults.headers.common['X-CSRF-Token'] = csrf_token;
+    const csrf_token = document.head.querySelector("[name~=csrf-token][content]").content;
+    axios.defaults.headers.common['X-CSRF-Token'] = csrf_token;     //set csrf token
+    // axios.defaults.headers.common['Content-Type'] = 'application/json';   //set type of request
+    // axios.defaults.headers.common['Accept'] = 'application/json';   //set type of request
 </script>
 <div id="app">
     @yield('content')

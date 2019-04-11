@@ -55,7 +55,7 @@ trait ModelHelpers
     }
 
     // if request is ajax then send data as json
-    protected function decideHowToShipDataAndSend($model)
+    protected function decideHowToShipDataAndSend($model) //:TODO убрать если не используется
     {
         if (isJson()) return JSON($this->markWasSelectedAttribute($model));
         else return $this->markWasSelectedAttribute($model);

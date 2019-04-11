@@ -32,7 +32,7 @@ class Request
         if (requestMethod() === 'POST') $this->checkCsrfToken();
     }
 
-    protected function getCsrfFromHeader() :void
+    protected function getCsrfFromHeader(): void
     {
         if (!empty($this->headers['X-CSRF-Token'])) $this->csrf = $this->headers['X-CSRF-Token'];
     }
@@ -49,7 +49,7 @@ class Request
 
     protected function checkJsonRequest(): void
     {
-        if (strtolower(@$this->headers['Content-Type']) === 'application/json') $this->jsonRequest = true;
+        if (stristr(@$this->headers['Content-Type'], 'application/json') !== false) $this->jsonRequest = true;
     }
 
 

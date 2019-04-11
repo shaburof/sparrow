@@ -26,7 +26,14 @@ class Response
     protected function setHeader()
     {
         header($this->header);
+        $this->Clear();
+    }
+
+    private function Clear(): void
+    {
         unset($this->header);
+        unset($this->code);
+        unset($this->message);
     }
 
 }
