@@ -5,9 +5,7 @@ namespace App\Model;
 
 use Vendor\Sparrow\Core\Model\Model;
 
-class foo extends Model
+class User extends Model
 {
-
-    protected $id = 'Id';
 
 }

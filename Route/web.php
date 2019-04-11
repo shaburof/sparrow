@@ -11,7 +11,6 @@ Route::get('/test', function () {
 //    echo '<h1>get route</h1>';
 
 
-
     $data = (new \App\Model\footable())->select()->where(function ($query) {
         $query->where('id', '=', 1)->or()->where('id', '=', 3);
     })->all();

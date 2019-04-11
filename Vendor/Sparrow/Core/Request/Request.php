@@ -25,7 +25,7 @@ class Request
         $this->validate = getClass(Validate::class);
         $this->getDataFromRequest();
 
-        $this->headers = getallheaders();
+        $this->headers = !empty(requestMethod())?getallheaders():[];
         $this->checkJsonRequest();
 
         $this->getCsrfFromHeader();
