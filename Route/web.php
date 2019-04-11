@@ -5,12 +5,13 @@ use Vendor\Sparrow\Router\Route;
 
 Route::get('/', 'welcomeController@index', ['name' => 'welcome']);
 
-Route::get('/test2', 'userController@user', ['name' => 'test2']);
+Route::get('/test2', 'UserController@user', ['name' => 'test2']);
 
 Route::get('/test', function () {
     echo '<h1>get route</h1>';
+
 //
-    $user=new \App\Model\User();
+//    $user=new \App\Model\user();
 //
 //    $user=$user->find(1)->first();
 //    $user->name='new name2';
@@ -26,16 +27,19 @@ Route::get('/test', function () {
 //    dd($login->login('nata', 'pa$$word'));
 
     $login = new \Vendor\Sparrow\Login\Login();
-    $login->login('nata@example.com', 'pa$$word');
-
+    dd($login->logout());
+    $login->login('ola@example.com', 'pa$$word');
     $auth=getClass(\Vendor\Sparrow\Auth\Auth::class);
-//    dd();
-    dd($auth);
+//    dump($auth);
+    dump(time());
+    dump($auth->check());
+    dd(frameworkSession());
+
 
 //    dd($user);
-//    $login = new \Vendor\Sparrow\Login\Login();
+    $login = new \Vendor\Sparrow\Login\Login();
 //    $login->login('nata@example.com', 'pa$$word');
-//    dump($login->signUp(['name' => 'nata', 'email' => 'nata@example.com', 'password' => 'pa$$word']));
+    dump($login->signUp(['name' => 'ola', 'email' => 'ola@example.com', 'password' => 'pa$$word']));
 //    $login->logout();
 //    dd($login);
 }, ['name' => 'test']);
@@ -48,4 +52,4 @@ Route::post('/test', function () {
     return \Vendor\Sparrow\Core\Api\Api::run(\App\Api\fooapi::class, $data, 201, 'code 201');
 
 
-});
+},['middleware'=>'auth']);

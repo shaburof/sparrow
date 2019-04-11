@@ -19,7 +19,7 @@ class fooapi extends Api
         return [
             'fullName'=>$data->name,
             'description'=>$data->description,
-            'create'=>$data->created_at
+            'create'=>'дата создания'
         ];
     }
 }

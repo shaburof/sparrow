@@ -9,26 +9,48 @@
 namespace Vendor\Sparrow\Auth;
 
 
+use App\Model\user;
+use Vendor\Sparrow\Core\Builder;
+use Vendor\Sparrow\Login\Login;
+
 class AuthMain
 {
 
     protected $user = null;
     protected $userAgent = null;
     protected $userId = null;
+    protected $loginTime = null;
+    protected $expired = null;
+
+    protected $logoutExpiredTime = null;
+    protected $login;
 
     public function __construct()
     {
+        $this->logoutExpiredTime=env('AUTHEXPIRED',3600);
         $this->getUserFromSession();
+        $this->login = getClass(Login::class);
+        $this->checkExpired();
     }
 
     protected function getUserFromSession(): void
     {
         if (!empty(frameworkSession()->auth)) {
-            $this->user = (object)unserialize(frameworkSession()->auth['user']);
             $this->userAgent = frameworkSession()->auth['userAgent'];
             $this->userId = frameworkSession()->auth['id'];
+            $this->user = Builder::sCreate(user::class)->find(frameworkSession()->auth['id'])->first(); // :TODO убрать из получаемого user из базы пароль
+            $this->loginTime = frameworkSession()->auth['loginTime'];
+            $this->expired = frameworkSession()->auth['expired'];
         }
     }
 
+    protected function checkExpired()
+    {
+        if($this->expired!=='never' && time()>$this->expired){
+            $this->login->logout();
+        }else{
+            frameworkSession()->auth['expired']=time() + $this->logoutExpiredTime;
+        }
+    }
 
 }

@@ -28,9 +28,9 @@ setClass(new \Vendor\Sparrow\Views\View());
 
 //setClass(new \Vendor\Sparrow\Core\DB\DB()); // :TODO убрал
 //setClass(new \Vendor\Sparrow\Core\DBConnectors\MysqlConnector()); // :TODO убрал
-setClass(\Vendor\Sparrow\Core\DBConnectors\BaseConnector::getDBConnentor(),'connector');
+setClass(\Vendor\Sparrow\Core\DBConnectors\BaseConnector::getDBConnentor(), 'connector');
 
-
+setClass(new \Vendor\Sparrow\Login\Login());
 setClass(new \Vendor\Sparrow\Auth\Auth());
 
 setClass(new \Vendor\Sparrow\Router\RouteStore());

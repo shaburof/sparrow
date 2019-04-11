@@ -9,7 +9,7 @@
 namespace Vendor\Sparrow\Login;
 
 
-use App\Model\User;
+use App\Model\user;
 use Vendor\Sparrow\Auth\Auth;
 
 class Login
@@ -22,7 +22,7 @@ class Login
     public function __construct()
     {
         $this->nameLoginField = env('NAMELOGINFIELD', 'email');
-        $this->userTable = new User();
+        $this->userTable = new user();
     }
 
     public function login(string $name, string $password): bool
@@ -37,7 +37,6 @@ class Login
 
             return $attemt;
         }
-        $this->logout();
         return false;
     }
 
@@ -50,7 +49,7 @@ class Login
 
     public function logout()
     {
-        unset(frameworkSession()->auth);
+        unset(frameworkSession()->auth); // :TODO сделать переадресацию в слечае выхода
     }
 
 

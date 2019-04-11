@@ -16,14 +16,30 @@ class Auth extends AuthMain
     {
         $id = $user->getId();
         unset($user->password);
-        $user=getVars($user);
         frameworkSession()->auth = [
             'id' => $id,
             'userAgent' => sha1(userAgent()),
-            'user' => serialize($user)
+            'loginTime' => time(),
+            'expired' => time() + $this->logoutExpiredTime
         ];
 
         $this->getUserFromSession();
+    }
+
+    public function user(): object
+    {
+        return $this->user;
+    }
+
+    public function check(): bool
+    {
+        $this->checkExpired();
+        return (!empty(frameworkSession()->auth['id']) && $this->compareUserAgents());
+    }
+
+    protected function compareUserAgents(): bool
+    {
+        return sha1(userAgent()) === frameworkSession()->auth['userAgent'];
     }
 
 }

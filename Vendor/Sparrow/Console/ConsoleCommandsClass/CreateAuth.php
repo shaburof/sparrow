@@ -16,17 +16,8 @@ use Vendor\Sparrow\Core\DB\DBMain;
 class CreateAuth extends Create
 {
     // :TODO change 'created_at' and 'updated_at' fields to dateTime format. Check how there work if set timestamp format.
-    private $createTableQuery = "CREATE TABLE `user` (
-                                      `Id` int(11) NOT NULL AUTO_INCREMENT,
-                                      `name` varchar(100) NOT NULL DEFAULT '',
-                                      `email` varchar(100) NOT NULL DEFAULT '',
-                                      `password` varchar(255) NOT NULL DEFAULT '',
-                                      `created_at` DATETIME DEFAULT NULL,   
-                                      `updated_at` DATETIME DEFAULT NULL,
-                                      PRIMARY KEY (`Id`),
-                                      UNIQUE KEY `email` (`email`)
-                                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-    protected $className = 'User';
+    private $createTableQuery;
+    protected $className = 'user';
     protected $directoryPath = ROOT . 'App/Model/';
     protected $namespace = 'App\Model';
     protected $modelString;
@@ -54,7 +45,7 @@ namespace $this->namespace;
 
 use Vendor\Sparrow\Core\Model\Model;
 
-class User extends Model
+class user extends Model
 {
     protected \$autoincrementField = 'Id';
 

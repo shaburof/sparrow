@@ -2,8 +2,10 @@
 
 namespace Vendor\Sparrow\Router;
 
+use Vendor\Sparrow\Core\Builder;
 use Vendor\Sparrow\Core\Errors\Errors;
 use Vendor\Sparrow\Core\Validate;
+use Vendor\Sparrow\Middleware\Middleware;
 
 class Router
 {
@@ -13,10 +15,12 @@ class Router
     protected $validate;
     private $routerPattern = '/([0-9a-zA-Z-%]*)';
 
+    protected $middlewares;
+
     public function __construct()
     {
         $this->routePaths = getClass(\Vendor\Sparrow\Router\RouteStore::class)->getPaths();
-        $this->uri = trim(uri(), '/')===''?'/':trim(uri(), '/');
+        $this->uri = trim(uri(), '/') === '' ? '/' : trim(uri(), '/');
         $this->validate = getClass(Validate::class);
     }
 
@@ -29,13 +33,22 @@ class Router
             $match = $this->compareUriWithStoredRoutes($this->removeGetParametersFromUri($this->uri), $path->uri);
             if ($match !== false) {
                 ['parameters' => $parameters] = $match;
+
+                $this->middlewares = $this->getMiddlewares($path);  // get middleware from path
+
                 $this->launchAction($path->action, $this->sanitizeParameters($parameters));
                 return true;
             }
         }
-        response(404,'Page not found');
+        response(404, 'Page not found');
         return 'false'; // :TODO зачем false в виде строки?
     }
+
+    protected function getMiddlewares($path)
+    {
+        return !empty($path->parameters->middleware) ? explode('|', $path->parameters->middleware) : [];
+    }
+
 
     protected function sanitizeParameters(array $parameters): array
     {
@@ -45,10 +58,14 @@ class Router
     protected function launchAction($action, $parameters)
     {
         if ($action instanceof \Closure) {
+
+            Builder::sCreate(Middleware::class, false, $this->middlewares);
             echo call_user_func_array($action, $parameters); //:TODO send throw responce()
         } elseif (is_string($action)) {
             [$controller, $method] = explode('@', $action);
             $controllerFullName = "\App\Controllers\\$controller";
+
+            Builder::sCreate(Middleware::class, false, $this->middlewares);
             echo call_user_func_array([\Vendor\Sparrow\Core\Builder::sCreate($controllerFullName), $method], $parameters);
         }
     }
@@ -78,6 +95,7 @@ class Router
         return count($array) > 0 ? $array : null;
     }
 
+
     public function getNamedRouterPath(string $name, ?array $parameters): ?object
     {
         foreach ($this->routePaths as $item) {
@@ -97,7 +115,7 @@ class Router
         $parametersCount = count($parameters);
         if (preg_match_all('~\?~', $uri) === $parametersCount) {
             foreach ($parameters as $param) {
-                $route->uri=preg_replace('~\?~',$param,$route->uri,1);
+                $route->uri = preg_replace('~\?~', $param, $route->uri, 1);
             }
         } else {
             throw  new Errors('колличество параметров для маршрута не совпадает');
@@ -106,7 +124,7 @@ class Router
         return $route;
     }
 
-    public function getRouterPathByAction(string $action, ?array $parameters=null): ?object
+    public function getRouterPathByAction(string $action, ?array $parameters = null): ?object
     {
         foreach ($this->routePaths as $item) {
             if ($item->action === $action) {
