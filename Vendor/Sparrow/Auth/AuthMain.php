@@ -47,7 +47,7 @@ class AuthMain
 
     public function destroyAuthUser()
     {
-        session()->unsetAuth();
+        unset(frameworkSession()->auth);
         unset($this->userAgent, $this->userId, $this->user, $this->loginTime, $this->expired);
     }
 

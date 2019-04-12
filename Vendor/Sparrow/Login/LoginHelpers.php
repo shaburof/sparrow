@@ -32,7 +32,6 @@ trait LoginHelpers
     }
 
     public function logoutWithoutRedirect(){
-//        session()->unsetAuth();
         getClass(Auth::class)->destroyAuthUser();
     }
 

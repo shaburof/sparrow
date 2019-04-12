@@ -11,7 +11,7 @@ Route::get('/test', function () {
 //    echo '<h1>get route</h1>';
     $login = getClass(\Vendor\Sparrow\Login\Login::class);
 //    dump($login->signUp(['name' => 'Ola Ivanova2', 'email'=>'ola11@example.com','password' => 'pa$$word']));
-//    $login->logout();
+//    $login->logoutWithoutRedirect();
 //    dump($login->attemt('ola11@example.com', 'pa$$word'));
     $auth = getClass(\Vendor\Sparrow\Auth\Auth::class);
 //    dump($auth->check());
