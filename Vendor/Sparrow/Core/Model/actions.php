@@ -136,4 +136,9 @@ trait actions
         $this->queryBuilder->count();
         return $this;
     }
+
+    public function order(string $by,string $how='ASC'):Model{
+        $this->queryBuilder->order($by,$how);
+        return $this;
+    }
 }

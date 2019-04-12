@@ -8,24 +8,21 @@ Route::get('/', 'welcomeController@index', ['name' => 'welcome']);
 Route::get('/test2', 'UserController@user', ['name' => 'test2']);
 
 Route::get('/test', function () {
-//    echo '<h1>get route</h1>';
-    $login = getClass(\Vendor\Sparrow\Login\Login::class);
-//    dump($login->signUp(['name' => 'Ola Ivanova2', 'email'=>'ola11@example.com','password' => 'pa$$word']));
-//    $login->logoutWithoutRedirect();
-//    dump($login->attemt('ola11@example.com', 'pa$$word'));
-    $auth = getClass(\Vendor\Sparrow\Auth\Auth::class);
-//    dump($auth->check());
-//    dump($auth->isGuest());
-    dump($auth->check());
-//    dump($auth->user()->email);
-    dd(frameworkSession());
+    echo '<h1>get route</h1>';
 
 
-//    dd($user);
-//    $login = new \Vendor\Sparrow\Login\Login();
-//    $login->login('nata@example.com', 'pa$$word');
-//    dump($login->signUp(['name' => 'Kola', 'email' => 'kola@example.com', 'password' => 'pa$$word']));
-//    dd($login);
+    $footable = new \App\Model\footable();
+
+    $data = $footable->select()->order('created_at','DESC')->all();
+
+
+    foreach ($data as $item) {
+        dump($item->name);
+        dump($item->created_at);
+    }
+
+
+
 }, ['name' => 'test']);
 
 

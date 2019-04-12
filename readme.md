@@ -19,6 +19,9 @@ get count
 *    $count = $footable->select(['count(*) as count'])->all();
 *   $count->count
 
+####ORDER BY
+*   $data = $footable->select()->order('created_at','DESC')->all();
+
 
 // SELECT id,name FROM footable  WHERE id > ?
 	$date = $footable->select(['id','name'])->where('id','>', '31')->all();	

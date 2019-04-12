@@ -47,7 +47,7 @@ class QueryBuilder extends QueryBuilderMain
     {
         $parsedValues = $this->parsingValues($values, 'update');
         $this->query = "UPDATE {$this->model} SET {$parsedValues['parameters']} " . $this->ifSelectedReplaceSELECT();
-        $this->parameters = array_merge($parsedValues['values'],$this->parameters);
+        $this->parameters = array_merge($parsedValues['values'], $this->parameters);
 
     }
 
@@ -56,6 +56,12 @@ class QueryBuilder extends QueryBuilderMain
     {
         $this->query = "DELETE FROM {$this->model} " . $this->ifSelectedReplaceSELECT();
 
+        return $this;
+    }
+
+    public function order(string $by, string $how = 'ASC'): QueryBuilder
+    {
+        $this->query.=" ORDER BY $by $how";
         return $this;
     }
 
