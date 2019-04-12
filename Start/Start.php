@@ -18,7 +18,6 @@ setClass(new \Vendor\Sparrow\Date\Date());
 setClass(new \Vendor\Sparrow\Core\Session\Session());
 setClass(new \Vendor\Sparrow\Core\Csrf\Csrf(60, 30));
 
-
 setClass(new \Vendor\Sparrow\Core\Builder());
 setClass(new \Vendor\Sparrow\Core\Validate());
 setClass(new \Vendor\Sparrow\Core\Url());
@@ -32,8 +31,8 @@ setClass(\Vendor\Sparrow\Core\DBConnectors\BaseConnector::getDBConnentor(), 'con
 
 // if user class create
 if (file_exists(ROOT . 'App\Model\user.php')) {
-    setClass(new \Vendor\Sparrow\Login\Login());
     setClass(new \Vendor\Sparrow\Auth\Auth());
+    setClass(new \Vendor\Sparrow\Login\Login());
 }
 
 setClass(new \Vendor\Sparrow\Router\RouteStore());

@@ -8,25 +8,16 @@ Route::get('/', 'welcomeController@index', ['name' => 'welcome']);
 Route::get('/test2', 'UserController@user', ['name' => 'test2']);
 
 Route::get('/test', function () {
-    echo '<h1>get route</h1>';
-
-//    $footable = new \App\Model\footable();
-//    $data = $footable->select()->all();
-
-
-//    $data = \Vendor\Sparrow\Core\DB\DB::sraw(['select * from footable where id>=?', ['2']])->all();
-    $data = \Vendor\Sparrow\Core\DB\DB::source('select * from footable where id>=? and name like ?',2,'%a')->all();
-    // сделать запрос к базу более простым
-    dd(\Vendor\Sparrow\Core\Api\Api::run(\App\Api\fooapi::class, $data));
-
-
+//    echo '<h1>get route</h1>';
     $login = getClass(\Vendor\Sparrow\Login\Login::class);
 //    dump($login->signUp(['name' => 'Ola Ivanova2', 'email'=>'ola11@example.com','password' => 'pa$$word']));
-//    dd($login->logoutWithoutRedirect());
+//    $login->logout();
 //    dump($login->attemt('ola11@example.com', 'pa$$word'));
     $auth = getClass(\Vendor\Sparrow\Auth\Auth::class);
+//    dump($auth->check());
+//    dump($auth->isGuest());
     dump($auth->check());
-    dump($auth->user()->email);
+//    dump($auth->user()->email);
     dd(frameworkSession());
 
 

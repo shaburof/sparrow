@@ -9,6 +9,8 @@
 namespace Vendor\Sparrow\Login;
 
 
+use Vendor\Sparrow\Auth\Auth;
+
 trait LoginHelpers
 {
 
@@ -30,7 +32,8 @@ trait LoginHelpers
     }
 
     public function logoutWithoutRedirect(){
-        unset(frameworkSession()->auth);
+//        session()->unsetAuth();
+        getClass(Auth::class)->destroyAuthUser();
     }
 
     public function attemt($name, $password): bool

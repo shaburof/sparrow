@@ -39,8 +39,8 @@ class Auth
     protected function ifFailed()
     {
         if (!$this->status) {
-            $this->login->logout();
             dump('auth middleware failed'); // :TODO stop script;
+            $this->login->logout();
         }
     }
 

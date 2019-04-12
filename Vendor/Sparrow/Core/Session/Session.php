@@ -29,4 +29,9 @@ class Session extends SessionMain
         return $this->frameworkSession;
     }
 
+    public function unsetAuth()
+    {
+        unset($_SESSION[$this->frameworkSessionName]->auth);
+    }
+
 }

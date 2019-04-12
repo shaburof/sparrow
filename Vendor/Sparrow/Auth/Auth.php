@@ -37,6 +37,11 @@ class Auth extends AuthMain
         return (!empty(frameworkSession()->auth['id']) && $this->compareUserAgents());
     }
 
+    public function isGuest(){
+        return empty($this->userAgent) && empty($this->userId);
+    }
+
+
     protected function compareUserAgents(): bool
     {
         return sha1(userAgent()) === frameworkSession()->auth['userAgent'];

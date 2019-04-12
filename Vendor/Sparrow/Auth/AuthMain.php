@@ -23,13 +23,14 @@ class AuthMain
     protected $expired = null;
 
     protected $logoutExpiredTime = null;
-    protected $login;
+
+//    protected $login;
 
     public function __construct()
     {
         $this->logoutExpiredTime = env('AUTHEXPIRED', 3600);
         $this->getUserFromSession();
-        $this->login = getClass(Login::class);
+//        $this->login = getClass(Login::class);
         $this->checkExpired();
     }
 
@@ -44,10 +45,16 @@ class AuthMain
         }
     }
 
+    public function destroyAuthUser()
+    {
+        session()->unsetAuth();
+        unset($this->userAgent, $this->userId, $this->user, $this->loginTime, $this->expired);
+    }
+
     protected function checkExpired()
     {
-        if ($this->expired !== 'never' && !empty($this->expired) && time() > $this->expired) {
-            $this->login->logout();
+        if (!empty($this->expired) && $this->expired !== 'never'  && time() > $this->expired) {
+            $this->destroyAuthUser();
         } elseif (!empty($this->expired)) {
             frameworkSession()->auth['expired'] = time() + $this->logoutExpiredTime;
         }

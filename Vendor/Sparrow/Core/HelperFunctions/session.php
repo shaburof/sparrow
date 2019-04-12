@@ -9,3 +9,4 @@ function frameworkSession(): object
 {
     return session()->frameworkSession();
 }
+

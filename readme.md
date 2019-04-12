@@ -268,7 +268,16 @@ $login->attemt('ola11@example.com', 'pa$$word') //login without redirect
 $login->logout() // logout and redirect
 $login->logoutWithoutRedirect()  // logout and redirect
 
+$auth = getClass(\Vendor\Sparrow\Auth\Auth::class);
 
+// return auth user
+$auth->user()   
+
+//check authorize user
+$auth->check()
+
+//check user is not authorized
+$auth->isGuest()
 
 
 web.php
