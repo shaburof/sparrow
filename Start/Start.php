@@ -16,8 +16,8 @@ setClass(new \Vendor\blade\BladeOne($views, $cache, \Vendor\blade\BladeOne::MODE
 setClass(new \Vendor\Sparrow\Date\Date());
 
 setClass(new \Vendor\Sparrow\Core\Session\Session());
-
 setClass(new \Vendor\Sparrow\Core\Csrf\Csrf(60, 30));
+
 
 setClass(new \Vendor\Sparrow\Core\Builder());
 setClass(new \Vendor\Sparrow\Core\Validate());
@@ -26,12 +26,15 @@ setClass(new \Vendor\Sparrow\Core\Request\Request());
 setClass(new \Vendor\Sparrow\Core\Response\Response());
 setClass(new \Vendor\Sparrow\Views\View());
 
+setClass(\Vendor\Sparrow\Core\DBConnectors\BaseConnector::getDBConnentor(), 'connector');
 //setClass(new \Vendor\Sparrow\Core\DB\DB()); // :TODO убрал
 //setClass(new \Vendor\Sparrow\Core\DBConnectors\MysqlConnector()); // :TODO убрал
-setClass(\Vendor\Sparrow\Core\DBConnectors\BaseConnector::getDBConnentor(), 'connector');
 
-setClass(new \Vendor\Sparrow\Login\Login());
-setClass(new \Vendor\Sparrow\Auth\Auth());
+// if user class create
+if (file_exists(ROOT . 'App\Model\user.php')) {
+    setClass(new \Vendor\Sparrow\Login\Login());
+    setClass(new \Vendor\Sparrow\Auth\Auth());
+}
 
 setClass(new \Vendor\Sparrow\Router\RouteStore());
 require ROOT . 'Route/web.php';

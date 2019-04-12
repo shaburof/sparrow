@@ -26,9 +26,9 @@ class Auth extends AuthMain
         $this->getUserFromSession();
     }
 
-    public function user(): object
+    public function user(): ?object
     {
-        return $this->user;
+        return !empty($this->user) ? $this->user : null;
     }
 
     public function check(): bool

@@ -128,6 +128,11 @@ delete
 #### raw query
 *   \Vendor\Sparrow\Core\DB\DB::sraw(['select * from footable'])->all();
 
+*   \Vendor\Sparrow\Core\DB\DB::sraw(['select * from footable where id>=?',['2']])->all();
+or
+*   \Vendor\Sparrow\Core\DB\DB::source('select * from footable where id >= ? and id < ?',2,10)->all();
+    raw query with parameters
+
 *   ->all()     все записи
 *   ->first()   первая
 *   ->last()    последняя
@@ -228,3 +233,66 @@ JSON(['foo'=>'bar'])
 
 // from json format to array
 fromJSON('{"foo":"bar"}');
+
+
+
+create api class in App\Api
+
+\Vendor\Sparrow\Core\Api\Api::run(\App\Api\fooapi::class,$data,201,'code 201');
+
+$data = (new \App\Model\footable())->select()->where(function ($query) {
+        $query->where('id','=',1)->or()->where('id','=',3);
+    })->all();
+
+ return \Vendor\Sparrow\Core\Api\Api::run(\App\Api\fooapi::class, $data, 201, 'code 201');
+
+
+Login
+
+in .env file, name field in User table which is used for login
+NAMELOGINFIELD=email
+
+
+Authorization
+
+php sparrow.php create:auth
+
+$login = getClass(\Vendor\Sparrow\Login\Login::class);
+
+$login->signUp(['name' => 'Ola Ivanova', 'email'=>'ola@example.com','password' => 'pa$$word']) // sign up and redirect
+$login->registration(['name' => 'Ola Ivanova', 'email'=>'ola@example.com','password' => 'pa$$word']) // sign up without redirect
+
+$login->login('ola11@example.com', 'pa$$word') // login and redirect
+$login->attemt('ola11@example.com', 'pa$$word') //login without redirect
+
+$login->logout() // logout and redirect
+$login->logoutWithoutRedirect()  // logout and redirect
+
+
+
+
+web.php
+
+add middleware to route:
+
+Route::get('/test', 'UserController@user', ['name' => 'test2','middleware'=>'auth']);
+
+list middleware in /Config/middleware.php in array:
+
+return [
+    'auth' => \Vendor\Sparrow\Middleware\Auth::class
+];
+
+
+
+before Router action:
+
+App/Bootstrap/Launch.php
+
+public function beforeRouter()
+    {
+    	// todo
+    }
+
+method beforeRouter() launch before middleware and router action
+

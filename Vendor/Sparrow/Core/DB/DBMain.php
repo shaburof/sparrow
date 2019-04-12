@@ -14,7 +14,7 @@ class DBMain
     protected $fetchDataFromDatabase;
     protected $className;
     protected $lastInsertId = null;
-    protected $statusOfExecutionOperation=null;
+    protected $statusOfExecutionOperation = null;
 
 
     public function __construct($className = null)
@@ -116,6 +116,12 @@ class DBMain
     {
         $db = new self();
         return $db->raw($query);
+    }
+
+    public static function source(string $query, ...$parameters)
+    {
+        $db = new self();
+        return $db->raw([$query, $parameters]);
     }
 
     public function __destruct()

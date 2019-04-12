@@ -62,14 +62,6 @@ class Url
     {
         $addToUrl = sanitizeUrl(trim($url, '/'));
         $params = !empty($parameters) ? '?' . http_build_query($parameters) : '';
-//        $params = null;
-//        if ($parameters) {    // :TODO заменил на http_build_query()
-//            $params = '?';
-//            foreach ($parameters as $k => $v) {
-//                $params .= "$k=$v&";
-//            }
-//            $params = rtrim($params, '&');
-//        }
         $scheme = secure() ? 'https' : 'http';
         $domainWithPort = domainWithPort();
         $url = "{$scheme}://{$domainWithPort}/$addToUrl$params";
@@ -80,5 +72,11 @@ class Url
     public function Route(string $route): string
     {
 
+    }
+
+    //redirect to url
+    public function redirect(string $url): void
+    {
+        header("Location: $url");
     }
 }

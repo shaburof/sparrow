@@ -2,6 +2,7 @@
 
 namespace Vendor\Sparrow\Router;
 
+use Vendor\Sparrow\Bootstrap\Bootstrap;
 use Vendor\Sparrow\Core\Builder;
 use Vendor\Sparrow\Core\Errors\Errors;
 use Vendor\Sparrow\Core\Validate;
@@ -58,20 +59,26 @@ class Router
     protected function launchAction($action, $parameters)
     {
         if ($action instanceof \Closure) {
-
-            Builder::sCreate(Middleware::class, false, $this->middlewares);
-            echo call_user_func_array($action, $parameters); //:TODO send throw responce()
+            $middleware = Builder::sCreate(Middleware::class, false, $this->middlewares);
+            $actionRouter = function () use ($action, $parameters) {
+                echo call_user_func_array($action, $parameters);
+            };
+//            $actionRouter();
         } elseif (is_string($action)) {
             [$controller, $method] = explode('@', $action);
             $controllerFullName = "\App\Controllers\\$controller";
-
-            Builder::sCreate(Middleware::class, false, $this->middlewares);
-            echo call_user_func_array([\Vendor\Sparrow\Core\Builder::sCreate($controllerFullName), $method], $parameters);
+            $middleware = Builder::sCreate(Middleware::class, false, $this->middlewares);
+            $actionRouter = function () use ($controllerFullName, $method, $parameters) {
+                echo call_user_func_array([\Vendor\Sparrow\Core\Builder::sCreate($controllerFullName), $method], $parameters);
+            };
+//            $actionRouter();
         }
+        Builder::sCreate(Bootstrap::class, false, [$actionRouter, $middleware]);
     }
 
 
-    protected function compareUriWithStoredRoutes($uri, $route)
+    protected
+    function compareUriWithStoredRoutes($uri, $route)
     {
         $pattern = preg_replace('~(/\?)~', $this->routerPattern, $route);
         $pattern = "^$pattern$";
@@ -81,12 +88,14 @@ class Router
         return false;
     }
 
-    protected function removeGetParametersFromUri(string $uri): string
+    protected
+    function removeGetParametersFromUri(string $uri): string
     {
         return explode('?', $uri)[0];
     }
 
-    protected function filterBy(string $type, string $value): ?array
+    protected
+    function filterBy(string $type, string $value): ?array
     {
         $array = array_filter($this->routePaths, function ($item) use ($type, $value) {
             if (strtolower($item->$type) === strtolower($value)) return $item;
@@ -96,7 +105,8 @@ class Router
     }
 
 
-    public function getNamedRouterPath(string $name, ?array $parameters): ?object
+    public
+    function getNamedRouterPath(string $name, ?array $parameters): ?object
     {
         foreach ($this->routePaths as $item) {
             if ($item->parameters->name === $name) {
@@ -107,7 +117,8 @@ class Router
         return null;
     }
 
-    protected function changeQuestionMarksOnValue(object $route, ?array $parameters = null): object
+    protected
+    function changeQuestionMarksOnValue(object $route, ?array $parameters = null): object
     {
         if (empty($parameters)) return $route;
 
@@ -124,7 +135,8 @@ class Router
         return $route;
     }
 
-    public function getRouterPathByAction(string $action, ?array $parameters = null): ?object
+    public
+    function getRouterPathByAction(string $action, ?array $parameters = null): ?object
     {
         foreach ($this->routePaths as $item) {
             if ($item->action === $action) {

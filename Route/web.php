@@ -10,37 +10,30 @@ Route::get('/test2', 'UserController@user', ['name' => 'test2']);
 Route::get('/test', function () {
     echo '<h1>get route</h1>';
 
-//
-//    $user=new \App\Model\user();
-//
-//    $user=$user->find(1)->first();
-//    $user->name='new name2';
-//    $user->save();
-//    dd($user);
-//    $userObject=(object)getVars($user);
-//    $ser = serialize($userObject);
-//    $userObject=unserialize($ser);
-//
-//
-//    dd($userObject);
-//    $login = new \Vendor\Sparrow\Login\Login();
-//    dd($login->login('nata', 'pa$$word'));
+//    $footable = new \App\Model\footable();
+//    $data = $footable->select()->all();
 
-    $login = new \Vendor\Sparrow\Login\Login();
-    dd($login->logout());
-    $login->login('ola@example.com', 'pa$$word');
-    $auth=getClass(\Vendor\Sparrow\Auth\Auth::class);
-//    dump($auth);
-    dump(time());
+
+//    $data = \Vendor\Sparrow\Core\DB\DB::sraw(['select * from footable where id>=?', ['2']])->all();
+    $data = \Vendor\Sparrow\Core\DB\DB::source('select * from footable where id>=? and name like ?',2,'%a')->all();
+    // сделать запрос к базу более простым
+    dd(\Vendor\Sparrow\Core\Api\Api::run(\App\Api\fooapi::class, $data));
+
+
+    $login = getClass(\Vendor\Sparrow\Login\Login::class);
+//    dump($login->signUp(['name' => 'Ola Ivanova2', 'email'=>'ola11@example.com','password' => 'pa$$word']));
+//    dd($login->logoutWithoutRedirect());
+//    dump($login->attemt('ola11@example.com', 'pa$$word'));
+    $auth = getClass(\Vendor\Sparrow\Auth\Auth::class);
     dump($auth->check());
+    dump($auth->user()->email);
     dd(frameworkSession());
 
 
 //    dd($user);
-    $login = new \Vendor\Sparrow\Login\Login();
+//    $login = new \Vendor\Sparrow\Login\Login();
 //    $login->login('nata@example.com', 'pa$$word');
-    dump($login->signUp(['name' => 'ola', 'email' => 'ola@example.com', 'password' => 'pa$$word']));
-//    $login->logout();
+//    dump($login->signUp(['name' => 'Kola', 'email' => 'kola@example.com', 'password' => 'pa$$word']));
 //    dd($login);
 }, ['name' => 'test']);
 
@@ -52,4 +45,4 @@ Route::post('/test', function () {
     return \Vendor\Sparrow\Core\Api\Api::run(\App\Api\fooapi::class, $data, 201, 'code 201');
 
 
-},['middleware'=>'auth']);
+}, ['middleware' => 'auth']);

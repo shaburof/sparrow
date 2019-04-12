@@ -27,7 +27,7 @@ class AuthMain
 
     public function __construct()
     {
-        $this->logoutExpiredTime=env('AUTHEXPIRED',3600);
+        $this->logoutExpiredTime = env('AUTHEXPIRED', 3600);
         $this->getUserFromSession();
         $this->login = getClass(Login::class);
         $this->checkExpired();
@@ -46,10 +46,10 @@ class AuthMain
 
     protected function checkExpired()
     {
-        if($this->expired!=='never' && time()>$this->expired){
+        if ($this->expired !== 'never' && !empty($this->expired) && time() > $this->expired) {
             $this->login->logout();
-        }else{
-            frameworkSession()->auth['expired']=time() + $this->logoutExpiredTime;
+        } elseif (!empty($this->expired)) {
+            frameworkSession()->auth['expired'] = time() + $this->logoutExpiredTime;
         }
     }
 

@@ -50,3 +50,8 @@ function action(string $action, ?array $parameters = null, ?array $additionalPar
     if (empty($uri)) throw new Exception('указанное действие в маршрутах не найдено');
     return url($uri, $additionalParameters);
 }
+
+function redirect(string $url): void
+{
+    getClass(\Vendor\Sparrow\Core\Url::class)->redirect($url);
+}

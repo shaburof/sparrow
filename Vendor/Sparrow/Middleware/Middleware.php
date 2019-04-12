@@ -17,10 +17,10 @@ class Middleware
         $this->middlewares = require_once ROOT . 'Config/middleware.php';
         $this->midleware = $middleware;
 
-        $this->handle();
+//        $this->handle();
     }
 
-    protected function handle()
+    public function handle()
     {
         foreach ($this->midleware as $middleware) {
 

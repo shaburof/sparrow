@@ -11,6 +11,7 @@ namespace Vendor\Sparrow\Login;
 
 use App\Model\user;
 use Vendor\Sparrow\Auth\Auth;
+use Vendor\Sparrow\Core\Model\Model;
 
 class Login
 {
@@ -19,43 +20,40 @@ class Login
     protected $nameLoginField;
     protected $userTable;
 
+    protected $redirectLogin = '/home';
+    protected $redirectLogout = '/login';
+
     public function __construct()
     {
         $this->nameLoginField = env('NAMELOGINFIELD', 'email');
         $this->userTable = new user();
     }
 
-    public function login(string $name, string $password): bool
+    public function login(string $name, string $password)
     {
-        $user = $this->userTable->select()->where($this->nameLoginField, '=', $name)->first();
-        if (!empty($user)) {
-            $hashPassword = $user->password;
-            $attemt = $this->verifyPassword($hashPassword, $password);
-
-            $auth = getClass(Auth::class);
-            $auth->storeUserInSession($user);
-
-            return $attemt;
+        if ($this->attemt($name, $password)) {
+            redirect($this->redirectLogin);
+        } else {
+            return false;
         }
-        return false;
     }
 
     public function signUp(array $authData)
     {
-        $authData['password'] = $this->hashPassword($authData['password']);
-
-        return $this->storeUser($authData);
+        $originPassword = $authData['password'];
+        if ($this->registration($authData)) {
+            $this->logout();
+            return $this->login($authData[env('NAMELOGINFIELD')], $originPassword);
+        }
+        return false;
     }
 
     public function logout()
     {
-        unset(frameworkSession()->auth); // :TODO сделать переадресацию в слечае выхода
+        $this->logoutWithoutRedirect();
+
+        redirect($this->redirectLogout);
     }
 
-
-    public function crypt(string $password): string
-    {
-        return $this->hashPassword($password);
-    }
 
 }

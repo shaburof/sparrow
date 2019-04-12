@@ -1,19 +1,8 @@
 <?php
 echo '<pre>';
-
-class A
-{
-
-    public function __construct()
-    {
-        $this->foo();
-    }
-
-    public function foo()
-    {
-        return 'string';
-    }
-
+function foo(...$a){
+    var_dump($a);
 }
 
-echo (new A())->foo();
+
+foo(1,2,3);
