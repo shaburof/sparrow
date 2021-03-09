@@ -140,7 +140,7 @@ or
 *   ->first()   первая
 *   ->last()    последняя
  
-####создать класс
+####crate class
 *   $footable = Builder::sCreate(\App\Model\footable::class);
 
 store Class in storage
@@ -159,7 +159,7 @@ getClass(\Vendor\Sparrow\Core\Url::class)
 getClass('connector')
 
 
-получаем данные от request
+get data from request
 request()->option
 
 
@@ -307,4 +307,72 @@ public function beforeRouter()
     }
 
 method beforeRouter() launch before middleware and router action
+
+
+
+create api class in App\Api
+
+\Vendor\Sparrow\Core\Api\Api::run(\App\Api\fooapi::class,$data,201,'code 201');
+
+$data = (new \App\Model\footable())->select()->where(function ($query) {
+        $query->where('id','=',1)->or()->where('id','=',3);
+    })->all();
+
+ return \Vendor\Sparrow\Core\Api\Api::run(\App\Api\fooapi::class, $data, 201, 'code 201');
+
+
+Login
+
+in .env file, name field in User table which is used for login
+NAMELOGINFIELD=email
+
+
+Authorization
+
+php sparrow.php create:auth
+
+$login = getClass(\Vendor\Sparrow\Login\Login::class);
+
+$login->signUp(['name' => 'Ola Ivanova', 'email'=>'ola@example.com','password' => 'pa$$word']) // sign up and redirect
+$login->registration(['name' => 'Ola Ivanova', 'email'=>'ola@example.com','password' => 'pa$$word']) // sign up without redirect
+
+$login->login('ola11@example.com', 'pa$$word') // login and redirect
+$login->attemt('ola11@example.com', 'pa$$word') //login without redirect
+
+$login->logout() // logout and redirect
+$login->logoutWithoutRedirect()  // logout and redirect
+
+
+
+
+web.php
+
+add middleware to route:
+
+Route::get('/test', 'UserController@user', ['name' => 'test2','middleware'=>'auth']);
+
+list middleware in /Config/middleware.php in array:
+
+return [
+    'auth' => \Vendor\Sparrow\Middleware\Auth::class
+];
+
+
+
+before Router action:
+
+App/Bootstrap/Launch.php
+
+public function beforeRouter()
+    {
+	// todo
+    }
+
+method beforeRouter() launch before middlewre and router action
+
+
+throw Error
+if (false) throw new Errors('все поля должны быть заполнены');
+is request is ajax error response then the response will be in json type
+
 
